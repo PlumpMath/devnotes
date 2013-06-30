@@ -1,0 +1,230 @@
+# Configuration
+ssh git server: git@beefy.local 
+
+ssh login: ssh git@beefy.local
+pw: admin password
+
+repo path: /Users/git/gitrepos/reponame.git
+
+# Setup a new local repo
+Example with a repo /Users/zand/dev/clojure/alpen
+
+cd /Users/zand/dev/clojure/alpen
+git init
+(edit the .gitignore to exclude unwanted files)
+git add . 
+git commit -m "Initial commit"
+
+# Setup a new repo on the server
+mkdir reponame.git
+cd reponame.git
+git init --bare
+
+# Cloning a repo from the local server:
+git clone git@beefy.local:/Users/git/gitrepos/alpen
+
+# Pushing to a local server repo:
+git remote add origin git@beefy.local:/Users/git/gitrepos/reponame
+git push origin master
+
+# Create Repo on GitHub
+First add a remote repo, E.g.:
+
+git remote add origin https://github.com/aeberts/emacs-config.git
+
+# Push Local Repo to GitHub
+
+Once the remote has been created and added then do:
+
+git push origin master
+
+# Pull Changes from GitHub Repo
+
+git pull origin master
+
+# Emacs Git Integration
+
+Using Magit for Git integration:
+http://magit.github.io/magit/magit.html
+
+# Magit Crash Course
+
+M-x magit-status to see git status, and in the status buffer:
+s to stage files
+c to commit (type in your commit message then C-c C-c to save the message and commit)
+b b to switch to a branch
+
+Other handy keys:
+
+P P to do a git push
+F F to do a git pull
+try to press TAB
+
+# General Git Notes (from TutsPlus Git Essentials)
+
+
+# Git Configuration
+
+git config --global color.ui true 
+
+makes the git output colour syntax highlighted.
+
+# Commit: 
+
+"commit -a" the -a flag will commit changes to files that have already been committed. E.g. if you have untracked files in the working directory and unstaged changes to files that have already been committed then you can do "commit -a" to commit the tracked files (and leave the untracked ones).
+
+"commit -a" = stage and commit all files that have previously been committed.
+"commit -m" = don't open editor for commit message - use string from the command line
+
+Flags can be combined: git commit -am 'the commit message'
+
+# Git Theory
+
+Working Directory
+Staging Area (index)
+Git Repo
+
+The Working Directory:
+Working directory is like a factory because this is where the changes are made.
+Checkout of the latest commit and that is the working directory
+Working directory is where those latest uncompressed files are.
+
+The Staging Area:
+Like the loading dock in a factory
+Marking files for a commit
+Single file contained in .git folder has all the files staged and ready to commit: .git/index
+"Index" is another name for the staging area.
+What's the whole point for having a staging area?
+     - important that your commits make sense
+     - allows you to selectively "cherry pick" files to create cohesive commits
+          i.e. one commit per bug fix or 1 commit per new feature etc.
+          aiming for "encapsulated bits"
+
+The Git Repo
+Where all the changes have been saved - more in a future video "git internals"
+
+# Git Internals
+
+Git stores changes internally with tree and blob objects that are referenced by their SHA1 hash. When a commit is made the commit object points to a tree object which points to one or more blob objects. When a new commit is made then a new commit object is create that points to changed objects. Previous objects that have not been changed are referenced by this new commit object.
+
+# Git References
+
+SHA1 hash name refers to the commit (you can use a 6 or 7 chars to uniquely identify the commit.)
+
+Branches: git keeps a reference to the latest commit on each branch (main branch = master) Branch -> latest commit -> tree -> blobs
+
+HEAD = latest commit on the current branch. 
+
+When you are on (Master, HEAD) then HEAD points to the latest commit on the master branch.
+
+Ancestry references:
+
+"~" gives reference to a commit's parent commit. E.g. :
+HEAD -> Commit 4
+HEAD~ -> Commit 3
+HEAD~2 -> Commit 2
+HEAD~3 -> Commit 1
+
+"^" gives parents of a merge commit
+Commit 3 is a merge of commits 1 (master branch) and commit 2 (feature branch)
+Head^ = commit 1
+Head^2 = commit 2
+
+# Git Diff
+
+Compare files under source control
+
+Diff output
+> means that a line was added
+< means that a line was removed
+
+By Default diff without arguments or options compares the file in the working directory with the same file in the staging area.
+
+To compare a file being staged with a file in the latest commit use the "--staged" option.
+
+e.g. git diff --staged README 
+
+"--staged" is the same as "--cached"
+
+To compare files in the working directory to what has been committed:
+
+git diff HEAD README
+
+To see changes for all files omit the filename (defaults to all files)
+
+How to compare files in different branches?
+
+# Git Log 
+
+Command to see changes already made aka viewing the "history"
+
+Use --stat flag with log to view a summary of the commit history
+
+git log --stat 
+
+Use the --oneline flag to view the commit history on one line.
+
+Use the --graph flag to get a visual graph of the commit history.
+
+git log flags can be combined : git log --oneline --graph
+
+Use the log --pretty="%h, %cn, %cr" flag to output custom log strings.
+
+for all log variables: http://git-scm.com/docs/git-log
+
+"gitk" command is a tk interface for git-log
+
+# Git Branch
+
+Branch allows you to make code changes to a project that doesn't break your existing code. 
+
+"Master" is the name of the default branch
+
+git branch -> lists branches 
+
+example output:
+* master 
+
+Asterix identifies the branch that we are currently on.
+
+git checkout branch is very versatile and is used for lots of tasks.
+
+To switch to another branch: 
+
+git checkout branch-name
+
+Changes that have not yet been committed (changes to the working directory) can be made part of any branch. When we commit we apply the change from the working directly to the branch that we are in. 
+
+Create a new branch and switch to it in one step:
+
+git checkout -b branch-name 
+
+switching between branches actually changes the content of those directories. 
+
+To see a log of all branches: 
+
+git log --oneline --graph --all --decorate
+
+(from merge video)
+Deleting a branch : git branch -d branch-name 
+
+# Git Merge / Rebase
+
+What it's useful for -> pulling content back on to the master branch from other branches (bug-fix, experimental features).
+
+Two ways to do that : Merging two branches together or Rebasing two branches together
+
+Merge takes the contents of one branch and pulls it into the master branch.
+
+Example: 
+If I'm currently on the master branch and I do:
+
+git merge bug-fix-1 
+
+which pulls the latest commit from bug-fix-1 into the master branch -> creates a new commit on master branch.
+
+# Rebase
+
+The goal of rebase it to try to keep your repo linear (easier to keep track of than many different branches). 
+
+Rebase will roll back commits that have come ahead of the branch you are rebase-ing (call it branch A), commit branch A and then attempt to recommit the other up-stream changes. It like interleaving branches onto the main branch.
