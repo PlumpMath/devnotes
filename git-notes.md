@@ -60,18 +60,20 @@ P P to do a git push
 F F to do a git pull
 try to press TAB
 
-# General Git Notes (from TutsPlus Git Essentials)
+# General Git Notes
+(from TutsPlus Git Essentials)
 
 
 # Git Configuration
 
-git config --global color.ui true 
+git config --global color.ui true
 
-makes the git output colour syntax highlighted.
+-- makes the git output colour syntax highlighted.
 
 # Commit: 
 
-"commit -a" the -a flag will commit changes to files that have already been committed. E.g. if you have untracked files in the working directory and unstaged changes to files that have already been committed then you can do "commit -a" to commit the tracked files (and leave the untracked ones).
+"commit -a" the -a flag will commit changes to files that have already been staged.
+ E.g. if you have untracked files in the working directory and unstaged changes to files that have already been committed then you can do "commit -a" to commit the tracked files (and leave the untracked ones).
 
 "commit -a" = stage and commit all files that have previously been committed.
 "commit -m" = don't open editor for commit message - use string from the command line
