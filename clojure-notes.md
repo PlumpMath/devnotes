@@ -1,9 +1,11 @@
 # Clojure Notes
 
+"First, solve the problem. Then, write the code. -John Johnson"
+
 ## Todos
 
-Figure out how to run utility code before every repl in CCW
-like doc, cdoc, etc.   
+Figure out how to run utility code before every nrepl
+like doc, cdoc, etc.
 
 ## Getting Started with Clojure
 
@@ -21,11 +23,25 @@ Read Programming Clojure 2nd Edition. It has a get introduction to get you into 
 
 Learn by doing with short programming tasks. www.4Clojure.com has 153 exercises ranging from elementary to expert that will take you on a guided journey of the language. Highly recommended.
 
-;;; Leiningen
+### How to Think in Clojure
+
+Model the world in data and create functions that operate on that data. Think of it like a wedding: The program is the venue, tables and chairs and the data is the people. The guests are what make (or break) the party.
+
+http://res.infoq.com/downloads/pdfdownloads/presentations/LambdaJam2013-DeanWampler-CopiousDatatheKillerAppforFunctionalProgramming.pdf?Expires=1375806522&Signature=eOEZNGV~~8mAStuVeu9Ga2PaEYyjKdHKi3swyXwyiX5GoHPufJVLcEs5Wwz4X84eftJswuuaAQEYCuEqiClYjtrTCcEUlaI4eC7Dr4BZzJfWF6-MJUqodzrpaXv74FLUKuXfp92di~oNr7AR86cE9SqfjTxQDwQXW9uCjwIw3hk_&Key-Pair-Id=APKAIMZVI7QH4C5YKH6Q
+
+#### Leiningen
 
 Get it, use it, love it.
 
-;;; Eclipse and CounterClockwise
+#### Setting up Emacs for Clojure
+
+Download and install emacs (I use EmacsOSX precompiled binary and Emacs prelude)
+Setup Emacs for effective clojure use
+ * Install clojure-mode, nrepl, paredit-mode, autocomplete, and ac-nrepl
+ * Configure the clojure modes according to your taste (my emacs.d file is avail)
+Install Leiningen using homebrew
+
+#### Eclipse and CounterClockwise
 
 How to add an existing Leiningen project into a workspace? Gets me every time...
 
@@ -39,7 +55,7 @@ How to add an existing Leiningen project into a workspace? Gets me every time...
 - Name the project
 - Click finish.
 
-;;; Paredit
+#### Paredit
 
 paredit-close-round-and-newline       : M-) 
 paredit-raise-over-sexp               : M-r 
@@ -54,19 +70,19 @@ paredit-splice-sexp-killing-backward  : M-up
 paredit-forward-slurp                 : C-right
 paredit-backward-slup                 : C-left
 
-;;; Moving Around
+#### Moving Around
 
 Go to the end of the defun            : C-M-e
 Go to beginning of defun              : C-M-a
 
-;;; Wrapping stuff in Paredit
+#### Wrapping stuff in Paredit
 
 There are a couple different ways to do it, I prefer using expand region:
 
 foo -> <expand region> -> |foo| -> <type double-quote> -> "foo"
 bar -> <expand region> -> |bar| -> <type open-paren> -> (foo)
 
-;;; Unwrapping stuff in Paredit
+#### Unwrapping stuff in Paredit
 
 I find I often get into a situation where I need to "unwrap" items in clojure:
 
@@ -83,17 +99,45 @@ To remove double quotes use paredit-splice (M-s):
 
 "|some text" -> some text
 
-
-
-
 ### The Clojure REPL
 
-Using the REPL effectively is important
+Now that our environment is setup properly we can now explore basic repl use. Once we have a handle on on that we'll go further to explore how we can use the interactive nature of the repl to help us solve problems more effectively. 
 
-To get repl stuff working in 1.5.1 nrepl: 
+Once you're got emacs setup correctly and you have created a lein project you can use nrepl to interact with your program thus:
+
+* (prelude) Projectile switch to project: ( C-c p s )
+or
+* Visit your projects core.clj file ( C-x c-f )
+* Jack into the nrepl with nrepl-jack-in: ( M-x nrepl-jack-in <f9>)
+* Load the clojure file into nrepl ( C-c C-l )
+  * this compiles the file and loads the namespace
+* Switch to the namespace in the repl ( C-c M-n )
+
+Why do you need to do all the above? Let's look at an example where I don't jack-into the "correct" repl:
+
+(TODO: add an example of jacking into an "incorrect" repl)
+
+By using projectile to set the project directory we tell nrepl where the project's "project.clj" file is. (TODO: Is this true? How does nrepl know which project.clj file to use?)
+
+### Exploring namespaces in the Repl
+
+One of the most confusing things about clojure when I started was getting a handle on namespaces. While they are very powerful it's easy to get lost and there is a lot of outdated information on the 'net. 
+
+When you do nrepl-jack-in nrepl puts you in the "user" namespace.
+
+To get repl tools working in 1.5.1 nrepl:
 (apply require clojure.main/repl-requires)
 
+List all namespaces:
+
+(all-ns) -> returns a seq of all loaded namespaces
+
+Show in-place documentation using auto-complete C-c C-d
+
+Regex history search? 
+
 ## Clojure Documentation and References 
+
 (a.k.a How to Get Help)
 
 ClojureDocs.org is indispensible
@@ -110,7 +154,6 @@ Using ClojureDocs in offline mode:
 (use 'cd-client.core)
 (set-local-mode! "/Users/zand/dev/docs/clojuredocs-snapshot-latest.txt")
 (cdoc filter)
-
 
 ## Libraries 
 
@@ -131,8 +174,7 @@ Get a sorted list of all public vars in a namespace
 
 e.g. (dir user)
 
-### Functions 
-
+## Functions 
 
 ### Anonymous Functions
 
@@ -164,7 +206,8 @@ used would be for very short one-off mapping/filter fns and the like.
 (loop [result [] x 5] 
   (if (zero? x)
     result
-    (recur (conj result x) (dec x))))
+    (recur (conj result x) (dec x)))
+    )
 ;-> [5 4 3 2 1]
 
 ## Threading Macros
@@ -218,9 +261,11 @@ user=> (->> (range)
             (reduce +))
 1140
 
-# Useful Clojure Library Functions
+# Essential Clojure Library Functions
 
 ## Sequences
+
+Most of Clojure's core data structures are built around sequences. It's a wildly useful abastraction and understanding sequences is one of the first things you should get comfortable with.
 
 ### Seq
 
@@ -339,6 +384,9 @@ We could also do this by:
 (get-in person [:employer :address :city])
 (-> person :employer :address :city)
 
+See also:
+http://www.learningclojure.com/2010/08/reduce-not-scary.html
+
 ### Apply
 
 Solution to 4Clojure #43 Reverse Interleave:
@@ -406,4 +454,18 @@ Then you can use:
       (recur
         (conj result (take (dec n) c))
         (drop n c)))))
+
+;;; What does the output look like?
+
+## Clojure Idioms
+
+Remove nil items from a set you should use:
+
+(remove nil? my-seq)
+
+but you might also see:
+
+(filter identity my-seq)
+or
+(keep identity my-seq )
 
