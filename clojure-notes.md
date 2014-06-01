@@ -9,15 +9,15 @@ like doc, cdoc, etc.
 
 ## Getting Started with Clojure
 
-### Journey into the Unknown 
- 
+### Journey into the Unknown
+
 Clojure is like Lisp with the nasty bits taken out.
 
 Clojure help you reason better about software problems but taking the incidental complexity out of writing programs.
 
 ### Hints for the Journey
 
-Try to embrace the Clojure way of doing things. This may be hard at first because you'll want to fall back on the same tools you have collected from other languages. 
+Try to embrace the Clojure way of doing things. This may be hard at first because you'll want to fall back on the same tools you have collected from other languages.
 
 Read Programming Clojure 2nd Edition. It has a get introduction to get you into the Clojure groove and then introduces you to the important parts of the language step by step.
 
@@ -47,25 +47,25 @@ How to add an existing Leiningen project into a workspace? Gets me every time...
 
 1 Setup a workspace in ~/dev/eclipse
 2 clone or create the leiningen project in ~/dev/clojure/project-name
-3 in an eclipse workspace whose default folder is DIFFERENT than ~/dev/clojure/ 
+3 in an eclipse workspace whose default folder is DIFFERENT than ~/dev/clojure/
 
 - Create a new project New -> Project... -> General -> Project
-- Uncheck "use default location" 
+- Uncheck "use default location"
 - Browse -> Choose the project's working directory (~/dev/clojure/project-name)
 - Name the project
 - Click finish.
 
 #### Paredit
 
-paredit-close-round-and-newline       : M-) 
-paredit-raise-over-sexp               : M-r 
-paredit-splice-sexp                   : M-s 
-paredit-reindent-defun                : M-q 
+paredit-close-round-and-newline       : M-)
+paredit-raise-over-sexp               : M-r
+paredit-splice-sexp                   : M-s
+paredit-reindent-defun                : M-q
 paredit-kill                          : C-k
-paredit-backward-up                   : C-M-u 
-paredit-forward-down                  : C-M-d 
-paredit-backward-down                 : C-M-n 
-paredit-forward-up                    : C-M-u 
+paredit-backward-up                   : C-M-u
+paredit-forward-down                  : C-M-d
+paredit-backward-down                 : C-M-n
+paredit-forward-up                    : C-M-u
 paredit-splice-sexp-killing-backward  : M-up
 paredit-forward-slurp                 : C-right
 paredit-backward-slup                 : C-left
@@ -101,7 +101,7 @@ To remove double quotes use paredit-splice (M-s):
 
 ### The Clojure REPL
 
-Now that our environment is setup properly we can now explore basic repl use. Once we have a handle on on that we'll go further to explore how we can use the interactive nature of the repl to help us solve problems more effectively. 
+Now that our environment is setup properly we can now explore basic repl use. Once we have a handle on on that we'll go further to explore how we can use the interactive nature of the repl to help us solve problems more effectively.
 
 Once you're got emacs setup correctly and you have created a lein project you can use nrepl to interact with your program thus:
 
@@ -121,7 +121,7 @@ By using projectile to set the project directory we tell nrepl where the project
 
 ### Exploring namespaces in the Repl
 
-One of the most confusing things about clojure when I started was getting a handle on namespaces. While they are very powerful it's easy to get lost and there is a lot of outdated information on the 'net. 
+One of the most confusing things about clojure when I started was getting a handle on namespaces. While they are very powerful it's easy to get lost and there is a lot of outdated information on the 'net.
 
 When you do nrepl-jack-in nrepl puts you in the "user" namespace.
 
@@ -134,9 +134,9 @@ List all namespaces:
 
 Show in-place documentation using auto-complete C-c C-d
 
-Regex history search? 
+Regex history search?
 
-## Clojure Documentation and References 
+## Clojure Documentation and References
 
 (a.k.a How to Get Help)
 
@@ -155,7 +155,7 @@ Using ClojureDocs in offline mode:
 (set-local-mode! "/Users/zand/dev/docs/clojuredocs-snapshot-latest.txt")
 (cdoc filter)
 
-## Libraries 
+## Libraries
 
 Use the ns macro to make libraries available for use in a program
 
@@ -174,19 +174,19 @@ Get a sorted list of all public vars in a namespace
 
 e.g. (dir user)
 
-## Functions 
+## Functions
 
 ### Anonymous Functions
 
-Anonymous functions are everywhere. 
+Anonymous functions are everywhere.
 
-The shorthand way to write them is #(body) 
+The shorthand way to write them is #(body)
 
 The arguments are :
 
 * % = first arg
 * %1 = first arg
-* %2 = second arg 
+* %2 = second arg
 
 From Clojure Docs
 
@@ -194,16 +194,16 @@ Anonymous function literal (#())
 
  #(...) => (fn [args] (...))
 
-where args are determined by the presence of argument literals taking the 
-form %, %n or  %&. % is a synonym for %1, %n designates the nth arg (1-based), 
-and %& designates a rest arg. This is not a replacement for fn - idiomatic 
-used would be for very short one-off mapping/filter fns and the like. 
+where args are determined by the presence of argument literals taking the
+form %, %n or  %&. % is a synonym for %1, %n designates the nth arg (1-based),
+and %& designates a rest arg. This is not a replacement for fn - idiomatic
+used would be for very short one-off mapping/filter fns and the like.
 #() forms cannot be nested.
 
 ## Loops
 
 ;adds x to a vector and calls itself again
-(loop [result [] x 5] 
+(loop [result [] x 5]
   (if (zero? x)
     result
     (recur (conj result x) (dec x)))
@@ -212,7 +212,7 @@ used would be for very short one-off mapping/filter fns and the like.
 
 ## Threading Macros
 
-"->" a.k.a Thread First 
+"->" a.k.a Thread First
 
 (-> x)
 (-> x form)
@@ -233,7 +233,7 @@ Feed that result into the function list
 
 Graphically, this can be viewed as:
 
-(Math/sqrt 25) --5.0--> (int 5.0) --5--> (list 5) 
+(Math/sqrt 25) --5.0--> (int 5.0) --5--> (list 5)
 => (5)
 
 Which expands into the following s-expression:
@@ -324,14 +324,14 @@ user=> (vec nil)
 
 ## Higher Order Functions
 
-### Map 
+### Map
 
 
-### Reduce 
+### Reduce
 
 clojure.core/reduce
 ([f coll] [f val coll])
-  
+
 f should be a function of 2 arguments. If val is not supplied,
   returns the result of applying f to the first 2 items in coll, then
   applying f to that result and the 3rd item, etc. If coll contains no
@@ -350,7 +350,7 @@ and the first item in the collection or the first two items in the collection
 if the value is omitted. It then calls the function repeatedly with the
 previous function result and the next item in the collection until every
 item in the collection has been processed. This function is the same as
-inject in Ruby and foldl in Haskell.  
+inject in Ruby and foldl in Haskell.
 
 Let's say we have the following nested map:
 
@@ -420,16 +420,16 @@ and then yields a sequence of exprs.
 
 (for [x [0 1 2 3 4 5]            ; binding-form
                :let [y (* x 3)]  ; collection expression
-               :when (even? y)]  ; filter expression 
+               :when (even? y)]  ; filter expression
            y)
 (0 6 12)
 
 ; take each item, multiply by three and then keep even items:
 
-(for [x [0 1 2 3 4 5]            ; x is each element in the set 
+(for [x [0 1 2 3 4 5]            ; x is each element in the set
                :let [y (* x 3)]  ; y is x * 3
-               :when (even? y)]  ; keep only those y's that are even 
-           y)                    ; return the y's 
+               :when (even? y)]  ; keep only those y's that are even
+           y)                    ; return the y's
 (0 6 12)
 
 
@@ -438,7 +438,7 @@ and then yields a sequence of exprs.
 First import the clojure.tools.trace library:
 
 ;(ns alpen.core
-;   (:require [clojure.repl :as r] 
+;   (:require [clojure.repl :as r]
 ;             [clojure.tools.trace :as t] :reload-all))
 
 Then you can use:
@@ -449,7 +449,7 @@ Then you can use:
   "drop the nth item from a sequence"
   [coll n]
   (loop [result [] c coll]
-    (if (empty? c) 
+    (if (empty? c)
       (flatten (t/trace :result result))
       (recur
         (conj result (take (dec n) c))

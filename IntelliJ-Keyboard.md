@@ -13,7 +13,7 @@ Command symbol: &#8984;
 
 # Current
 
-- AceJump : Command-P
+- AceJump : Command-U
 - Move Caret to Code Block Begin : Command-[
 - Move Caret to Code Block End : Command-]
 - Previous Tab : Shift-Command-[

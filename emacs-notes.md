@@ -323,7 +323,7 @@ begin-isearch         : A-f
 
 ### Region
 
-set-mark-command     : C-space
+set-mark-command      : C-space
 cancel mark           : C-g
 
 ### Killing Cutting and Pasting
@@ -358,7 +358,25 @@ visit-recent-files         : C-x f, C-x, C-r
 find file under point      : C-x p                                        
 show-file-name             : C-c n                                        
 mac-key-save-file          : A-s                                          
-save-some-buffers          : C-x s (save all files)                       
+save-some-buffers          : C-x s (save all files)
+swap-buffers               : C-c s
+
+### Projectile
+
+Projectile is part of Emacs prelude and it's a great way to navigate your project.
+First, make sure that your project's directory has a .git directory. If it doesn't
+then just to a "git init" in the project's directory and it will initialize a git
+repo. Next, visit a file in the project and projectile should autmatically include
+it in the switch project list. 
+
+switch-projects            : C-c p s
+helm-projectile            : C-c p h
+projectile-find-file       : C-c p f, s-f
+list-project-buffers       : C-c p b, s-b (not bound)
+open-project-root-dired    : C-c p D
+list-projectile-bindings   : C-c p -h
+projectile-grep            : s-g
+projectile-recent          : C-c p e
 
 ### Dired
 
@@ -375,7 +393,7 @@ Split Window Horizotally   : C-x 2
 Close Window (Unsplit)     : C-x 0
 Current Window Only        : C-x 1
 Focus in Direction         : Shift-arrow keys
-'other-window              : C-x o
+other-window               : C-x o
 Open file in other window  : C-x M-f
 Save Window Config         : C-x r w a
 Restory Window Config      : C-x r j a
@@ -383,6 +401,10 @@ Window Down                : Shift-down
 Window Up                  : Shift-up
 Window Right               : Shift-right
 Window Left                : Shift-left
+Window undo                : C-c left  (winner mode)
+Window redo                : C-c right (winner mode)
+New frame                  : s-n
+Delete frame               : s-w
 
 ### Editing
 
