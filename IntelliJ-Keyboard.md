@@ -6,10 +6,8 @@
 
 # Navigation
 
-<!---
-Do standard comments work in markdown files?
-Command symbol: &#8984;
--->
+- Jump to definition : Command-B
+- Jump to previous position : Command-[
 
 # Current
 
@@ -53,8 +51,10 @@ Command symbol: &#8984;
 
 # Clojure Specific
 
-- Start Clojure Console :
-- Jump to REPL :
-- Load File to REPL :
+- Run local Repl : Control-R
+- Jump to REPL : Command-M
+- Load File to REPL : Command-I, F
+- Run Form before cursor in REPL : Command-I, Return
+- Run Test in current NS in REPL : Command-I, T
 - Run Selected Text in REPL :
 - Execute Last S-Expression :

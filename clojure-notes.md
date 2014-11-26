@@ -140,7 +140,7 @@ Regex history search?
 
 (a.k.a How to Get Help)
 
-ClojureDocs.org is indispensible
+ClojureDocs.org is indispensable
 
 The clojure cheatsheet is great:
 http://jafingerhut.github.io/cheatsheet-clj-1.3/cheatsheet-tiptip-cdocs-summary.html
@@ -321,6 +321,47 @@ user=> (vec nil)
 1
 => ((vec '(1 4 5 6)) 3)
 6
+
+
+### Maps
+
+(def a [:a :b :c])
+(def b [1 2 3])
+
+(interleave a b)
+=> (:a 1 :b 2 :c 3)
+
+;; Creates a vector containing two vectors
+(vector a b)
+=> [[:a :b :c] [1 2 3]]
+
+;; Takes one item from each vector a and b and applies the fn vector to the items.
+(map vector a b)
+=> ([:a 1] [:b 2] [:c 3])
+
+(into {} (map vector a b))
+=> {:a 1, :b 2, :c 3}
+
+### Sets
+
+Sets are functions which means given:
+
+(def a #{0 1 2 3})
+(def b #{2 3 4 5})
+
+(a 1) => 1
+(a 2) => 2
+(a 5) => nil
+
+i.e. The set a will return the arg if the arg is contained in the set
+
+This is very useful with higher order fns:
+In the example below a is acting as the predicate function to filter.
+For each item in "b" return the item if it's in "a" -> the intersection of the two sets.
+
+(filter a b)
+=> (3 2)
+
 
 ## Higher Order Functions
 

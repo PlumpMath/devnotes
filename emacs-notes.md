@@ -438,7 +438,7 @@ slurp-backward          : C-<right arrow>
 
 ### Clojure Buffer ==> nREPL Interaction
 
-Eval top evel form       : C-c C-c
+Eval top eval form       : C-c C-c
 Eval the ns form         : C-c C-n
 Eval form preceding pont : C-c C-p
 Clear REPL buffer        : C-c M-o
