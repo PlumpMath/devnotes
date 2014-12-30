@@ -441,6 +441,12 @@ First import the clojure.tools.trace library:
 ;   (:require [clojure.repl :as r]
 ;             [clojure.tools.trace :as t] :reload-all))
 
+or
+
+(ns offline-4clojure.p96
+   (:use clojure.test)
+   (:use clojure.tools.trace))
+
 Then you can use:
 
 (t/trace :tagname (*2 3))
@@ -454,6 +460,25 @@ Then you can use:
       (recur
         (conj result (take (dec n) c))
         (drop n c)))))
+
+or if the function name is "__", as in: (defn __ [x] (identity x))
+
+(trace-vars __)
+
+will give you: 
+
+(= (__ '(:a (:b nil nil) (:b nil nil))) true)
+TRACE t2758: (offline-4clojure.p96/__ (:a (:b nil nil) (:b nil nil)))
+TRACE t2758: => true
+=> true
+(= (__ '(:a (:b nil nil) nil)) false)
+TRACE t2761: (offline-4clojure.p96/__ (:a (:b nil nil) nil))
+TRACE t2761: => true
+=> false
+(= (__ '(:a (:b nil nil) (:c nil nil))) false)
+TRACE t2764: (offline-4clojure.p96/__ (:a (:b nil nil) (:c nil nil)))
+TRACE t2764: => true
+=> false
 
 ;;; What does the output look like?
 
