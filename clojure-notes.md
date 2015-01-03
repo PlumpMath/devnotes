@@ -465,7 +465,7 @@ or if the function name is "__", as in: (defn __ [x] (identity x))
 
 (trace-vars __)
 
-will give you: 
+will give you:
 
 (= (__ '(:a (:b nil nil) (:b nil nil))) true)
 TRACE t2758: (offline-4clojure.p96/__ (:a (:b nil nil) (:b nil nil)))
