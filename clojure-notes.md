@@ -322,6 +322,15 @@ user=> (vec nil)
 => ((vec '(1 4 5 6)) 3)
 6
 
+## Strings
+
+Strings in Clojure are an area where I find myself having to use the underlying Java functions.
+
+Example: How to transform "1,2,3,4,5" into a vector [1 2 3 4 5]?
+
+;; Test if a char is a digit
+digit? (fn [c] (re-find #"\d" (str c)))
+
 ## Higher Order Functions
 
 ### Map
@@ -432,6 +441,15 @@ and then yields a sequence of exprs.
            y)                    ; return the y's
 (0 6 12)
 
+;; Mapcat can be useful here:
+
+(mapcat (fn [[k v]]
+                 (for [[k2 v2] v]
+                   (concat [k k2] v2)))
+         '{:a {:x (1 2) :y (3 4)}
+           :b {:x (1 2) :z (5 6)}})
+
+((:a :x 1 2) (:a :y 3 4) (:b :x 1 2) (:b :z 5 6))
 
 ## Debugging Clojure
 
