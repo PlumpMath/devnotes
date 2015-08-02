@@ -12,6 +12,8 @@
 - Home : Function-Command-Left
 - End : Function-Command-Right
 
+- Control-Enter : Submit dialog (like checkin)
+
 # Selection
 
 - Select Word : Command-D
@@ -22,6 +24,7 @@
 - Column Selection : Command-Shift-Multiply
 - Hippie-Completion? : 
 - Insert Comment : Command-/
+
 
 # Files and Tabs
 

@@ -1,0 +1,111 @@
+# Reagent App Todos:
+
+* Make items editable by clicking
+
+* Add button to add new items
+
+* Figure out how / why todomvc is using :ids
+
+* [Done] Figure out how / why todomvc is using ^{key :foo}
+- Todomvc is using it to attach meta data about the item so that React can render it more effectively
+
+* [Done] Add the todomvc example to resources (separate project)
+
+
+# Reagent Dev Notes
+
+## Displaying stuff
+
+Use bootstrap with "hiccup" style notation:
+
+[:div.container
+  [:h1 etc
+
+Use "for" (list comprehensions) to render items in a list:
+
+E.g.
+
+(defn lister [items]
+  [:ul
+   (for [item items]
+     ^{:key item} [:li item])])
+
+(lister (range 3))
+
+would give:
+
+[:ul
+  [:li 0]
+  [:li 1]
+  [:li 2]]
+
+
+## Getting stuff out of App State
+
+* Can use multiple atoms to represent app state
+* Can dereference them without having to pass them around
+
+Let's say you have an atom called app-state that's tracking your application state:
+
+(defonce app-state (atom {:ex1 {:jtid "ex1"
+                                :name "Exercise 1"
+                                :desc "Alternate pick 1st and 2nd finger to the 12th fret and back. Repeat 10 times."
+                                :tab  "C / / Bm"
+                                :bpm "65"}}
+                         {:ex2 {:jtid "ex2"
+                                :name "Exercise 2"
+                                :desc "Alternate pick 1st and 3nd finger to the 12th fret and back. Repeat 10 times."
+                                :tab "$1 1 3 1 3 2 4 2 4 3 5 3 5 4 6 4 6 5 7 5 7 6 8 6 8"
+                                :bpm "65"}}
+                         ))
+
+You need to 'deref' the atom to get the underlying data structure
+
+(deref app-state) or @app-state
+
+Then you can get nested structures with 'get-in':
+
+shred.core=> (get-in (deref app-state) [:ex1 :name])
+"Exercise 1"
+
+shred.core=> (get-in @app-state [:ex1 :name])
+"Exercise 1"
+
+
+## Putting stuff in App State
+
+* Add stuff
+
+## Adding stuff to local component state
+
+* Stuff
+* Stuff
+
+## Adding javascript libraries to your app
+
+* Add stuff
+* Add stuff
+
+## Debugging  
+
+* Figure out how to list items in the app-state atom in the repl
+
+* Figure out how to list items in the state atom in dev tools.
+
+Use the following function:
+
+(defn p "Prints given arguments, and then returns the last one"
+  [& values]
+  (.log js/console (apply pr-str values))
+  (last values))
+
+
+* Figure out how to evaluate items that are sent to the repl from the code itself.
+
+- This should just work with the repl commands : Command-I, Return but for some reason it doesn't work
+
+## ToDo App
+
+* Design the layout of the todo app on paper (use simple existing todomvc version for now)
+* 
+

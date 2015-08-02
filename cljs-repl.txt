@@ -1,0 +1,188 @@
+One of the great things about using a REPL is the immediate feedback you get on your progress. I spent some time playing with the ClojureScript browser REPL and ran into a few gotchas. I hope it gives you a headstart in your own ClojureScript REPL explorations!
+<h2>Starting a repl using QuickStart approach</h2>
+<div class="highlight">ClojureScript is under heavy development so be aware that if something below doesn't work for you it may be because of changes in clojurescript itself. In order to limit the number of variables I've setup a test project based on the ClojureScript Quickstart guide. The code is also available as a Github repo.</div>
+Start a repl from terminal.app:
+<pre>=&gt; rlwrap java -cp cljs.jar:src clojure.main repl.clj
+Compiling client js ...
+Waiting for browser to connect ...
+</pre>
+(in Chrome go to: localhost:9000) and in the repl you have start in the terminal you should then see:
+<pre>Watch compilation log available at: out/watch.log
+To quit, type: :cljs/quit</pre>
+Congrats! You've got a repl connected to your browser. Do how does the CLJS REPL work?
+<ol>
+	<li>Clojurescript code typed into the repl is compiled to javascript in the JVM running in the terminal</li>
+	<li>The compiled javascript is sent to your browser for execution</li>
+	<li>The result is sent back to your terminal and displayed.</li>
+</ol>
+Let's explore and find which vars are available in the default repl namespace (cljs.user) the function 'dir' can help here....
+<pre>cljs.user=&gt; (dir cljs.user)
+nil</pre>
+Hurumph. That's not much help... what's happening here? Like in a normal clojure program, dir is showing us the functions that are defined in namespace cljs.user and not "all the functions in all namespaces that can be called from the repl". If we define a new var in the cljs.user namespace then we can use dir to see that it's there:
+<pre>cljs.user=&gt; (dir cljs.user)
+nil
+cljs.user=&gt; (def avariable :foo)
+:foo
+cljs.user=&gt; (dir cljs.user)
+avariable
+nil
+cljs.user=&gt; avariable
+:foo</pre>
+Great! So how do I access the vars in my application?
+<pre>;; require the namespace of your application to make it 
+;; available in the repl:
+cljs.user=&gt; (require '[hello-world.core :as hello])
+nil</pre>
+Now we can explore the vars in the loaded namespace hello-world.core
+<pre>cljs.user=&gt; (dir hello-world.core)
+app-state
+bar
+conn
+foo
+init-state
+nil</pre>
+Cool! Now let's interact with the application that's running in the browser:
+<pre>cljs.user=&gt; app-state
+WARNING: Use of undeclared Var cljs.user/app-state at line 1 &lt;cljs repl&gt;
+nil</pre>
+Bleck... why didn't that work? The hint is cljs.user/app-state. The call fails because we're in the cljs.user namespace (the default namespace for the repl) and we're trying to call a var in hello-world.core namespace. Let's try using the fully qualified name:
+<pre>cljs.user=&gt; (hello-world.core/app-state)
+TypeError: hello_world.core.app_state.call is not a function
+TypeError: hello_world.core.app_state.call is not a function
+... elided ...
+</pre>
+Crap. Still not working. What's wrong? The hint is "...hello_world.core.app_state.call is not a function." It's fails because app_state is an atom and not a function. To get the contents of a var at the repl just use the name without parens:
+<pre>cljs.user=&gt; hello-world.core/app-state
+#&lt;Atom: {:text "Hello, this is: ", :numbers ["one" "two" "four"]}&gt;
+</pre>
+Yay! Alternatively we could switch to the namespace with "in-ns" and call the function:
+<pre>cljs.user=&gt; (in-ns hello-world.core)
+java.lang.UnsupportedOperationException: nth not supported on this type: Symbol
+at clojure.lang.RT.nthFrom(RT.java:857)
+at clojure.lang.RT.nth(RT.java:807)
+... elided ....
+at clojure.main.main(main.java:37)
+</pre>
+Arrgh!! Balls. Now what's happening? Turns out that 'in-ns' (unlike the function 'dir') takes a quoted namespace name like so:
+<pre>cljs.user=&gt; (in-ns 'hello-world.core)
+nil
+hello-world.core=&gt;
+</pre>
+So how do we know if a function takes a quoted symbol or not? I don't know... I will pose the question to the gods of cljs and report back. Anyway, onwards! Let's switch back to cljs.user so we have access to the repl functions
+<pre>hello-world.core=&gt; (in-ns 'cljs.user)</pre>
+Let's make a change to our applications app-state:
+<pre>cljs.user=&gt;(swap! hello-world.core/app-state assoc :player1 "bob")
+{:text "Hello, this is: ", :numbers ["one" "two" "four"], :player1 "bob"}</pre>
+And if we query app-state we see that it did indeed update:
+<pre>cljs.user=&gt; hello-world.core/app-state
+#&lt;Atom: {:text "Hello, this is: ", :numbers ["one" "two" "four"], :player1 "bob"}&gt;</pre>
+Fun! Now's a good time to see what's happening in the browser. In Chrome, open devtools (menu item: View -&gt; Developer -&gt; Developer Tools) and select the console tab. At the prompt start typing 'hello' (without the quotes) The console should complete "hello_world" for you indicating that it's an object that is "known" to Chrome and one that you can explore. Notice, however, that the original dash in hello-world has been turned into an underscore - this is a feature of the clojurescript compiler and happens to all names that contain dashes. The javascript object equivalent of our clojurescript var is: hello_world.core.app_state but it's an object of type "cljs.core.Atom" which we can see if we explore the object in Dev Tools: hello_world.ore.app_state.__proto__ c…s.c…e.Atom {cljs$core$IPrintWithWriter$: true} ... (elided) So let's explore what other namespaces we have to play with. This is a surprisingly tricky question and requires a little digging into the internals of clojurescript. While clojurescript does implement a function "all-ns" in cljs.analyzer.api it's for use by the clojurescript compiler and not available from the clojurescript repl. Since we now know how to explore what's happening in the browser let's use that approach (after all, it's the environment where our application code is running). Start typing 'cljs' in the console: You should see a list of javascript objects that are available in the global javascript namespace. In addition to the functions associated with the "cljs" object we also find:
+<ul>
+	<li>core</li>
+	<li>repl</li>
+	<li>pprint</li>
+	<li>user</li>
+</ul>
+Let's explore the cljs.repl namespace from our clojurescript repl. In your terminal:
+<pre>cljs.user=&gt; (dir cljs.repl)
+apropos
+dir
+doc
+err-out
+find-doc
+print-doc
+pst
+source
+nil</pre>
+Here are host of useful functions that are automatically available from the cljs.user namespace. We've already seen dir but they are all useful, e.g. :
+<pre>cljs.user=&gt; (doc reduce)
+-------------------------
+cljs.core/reduce
+([f coll] [f val coll])
+f should be a function of 2 arguments. If val is not supplied,
+returns the result of applying f to the first 2 items in coll, then
+applying f to that result and the 3rd item, etc. If coll contains no
+items, f must accept no arguments as well, and reduce returns the
+result of calling f with no arguments. If coll has only 1 item, it
+is returned and f is not called. If val is supplied, returns the
+result of applying f to val and the first item in coll, then
+applying f to that result and the 2nd item, etc. If coll contains no
+items, returns val and f is not called.
+nil</pre>
+find-doc is great if you don't quite know where to look:
+<pre>cljs.user=&gt; (doc find-doc)
+-------------------------
+cljs.repl/find-doc
+([re-string-or-pattern])
+Macro
+Prints documentation for any var whose documentation or name
+contains a match for re-string-or-pattern
+nil</pre>
+<pre>cljs.user=&gt; (find-doc "reduce")
+-------------------------
+-kv-reduce
+([coll f init])
+Reduces an associative collection and returns the result. f should be
+a function that takes three arguments.
+-------------------------
+-reduce
+([coll f] [coll f start])
+f should be a function of 2 arguments. If start is not supplied,
+returns the result of applying f to the first 2 items in coll, then
+applying f to that result and the 3rd item, etc.
+-------------------------
+... and a ton of other stuff ...</pre>
+What's available in cljs.core?
+<pre>cljs.user=&gt; (dir cljs.core)
+*
+*1
+*2
+*3
+*clojurescript-version*
+*e
+*flush-on-newline*
+*loaded-libs*
+*main-cli-fn*
+*print-dup*
+*print-fn*
+*print-length*
+*print-level*
+*print-meta*
+*print-newline*
+*print-readably*
+*target*
+*unchecked-if*
++
+-
+-&gt;
+-&gt;&gt;
+(... elided ...)</pre>
+Whoa billy. That's a lot of stuff.. you've probably figured out that's where the bulk of the clojurescript functions live. Ok, so what happens if you want to add a new function to hello-world.core and make it available in the running browser environment? Let's try it: Add a simple function to your namespace, e.g.:
+<pre>(defn bing [n d]
+(/ n d))
+</pre>
+Save the file. Because we have the ":watch" option specified in repl.clj the file should be compiled automatically. Now go back to the repl to check if it's in the namespace:
+<pre>cljs.user=&gt; (dir hello-world.core)
+app-state
+bar
+bing
+conn
+foo
+init-state
+nil
+</pre>
+Great! now let's use it:
+<pre>cljs.user=&gt; (hello-world.core/bing 10 5)
+TypeError: Cannot read property 'call' of undefined
+TypeError: Cannot read property 'call' of undefined
+... elided ...
+</pre>
+Bugger.. what happened? If we go back to the browser and inspect the hello_world.core object we see that the bing object doesn't appear: &lt;image?&gt; However, if we refresh the browser and we inspect the var again we see that bing is there: &lt;image?&gt; And if we try to access it from the repl everything works as expected:
+<pre>cljs.user=&gt; (hello-world.core/bing 10 5)
+2
+</pre>
+But be aware that any in-memory vars that you updated will be blown-away when you refresh. Remember we updated the app-state with a :player1 key? Well, it's not there anymore:
+<pre>cljs.user=&gt; hello-world.core/app-state
+#&lt;Atom: {:text "Hello, this is: ", :numbers ["one" "two" "four"]}&gt;
+</pre>
+If you want to update the running in-browser application you'll need the leiningen plugin figwheel which we'll setup and explore in a future post.
