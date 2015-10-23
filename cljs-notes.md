@@ -26,6 +26,27 @@ https://github.com/bhauman/lein-figwheel/wiki/Running-figwheel-in-a-Cursive-Cloj
 * Set a breakpoint in the browser on the line where you want to debug
 * Step through the code using the browser debugging controls. 
 
+## ClJS REPL Notes
+
+To require a namespace: 
+
+    shred.core=> (require '[cljs.repl :as r])
+    nil
+    shred.core=> (r/dir shred.core)
+    add-exercise
+    app-state
+    exercise
+    exercise-form
+    jtab-component
+    labeled-input
+    layout
+    on-js-reload
+    session
+    test-layout
+    test-state
+    tooltip-info
+    nil
+    shred.core=> 
 
 #### Starting a repl using QuickStart approach
 
