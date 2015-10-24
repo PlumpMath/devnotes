@@ -367,10 +367,34 @@ For each item in "b" return the item if it's in "a" -> the intersection of the t
 
 Strings in Clojure are an area where I find myself having to use the underlying Java functions.
 
+Simple case:
+
+(.toUpperCase "hello") -> "HELLO"
+
+Concatinating String:
+
+(str "foo" "bar")
+
 Example: How to transform "1,2,3,4,5" into a vector [1 2 3 4 5]?
 
 ;; Test if a char is a digit
 digit? (fn [c] (re-find #"\d" (str c)))
+
+Takes a string and returns a string containing all caps.
+
+(fn [x]
+  (apply str (filter #(re-find #"[A-Z]" (str %)) (seq x))))
+
+#(apply str (re-seq #"[A-Z]" %))
+
+## Regular Expressions 
+
+
+Extract the 
+```
+(apply str (re-seq #"[A-Z]+" "bA1B3Ce "))
+```
+
 
 ## Higher Order Functions
 
@@ -468,22 +492,27 @@ and then yields a sequence of exprs.
 
 ; take each item, multiply by three and then keep even items:
 
+```
 (for [x [0 1 2 3 4 5]            ; binding-form
                :let [y (* x 3)]  ; collection expression
                :when (even? y)]  ; filter expression
            y)
 (0 6 12)
+```
 
-; take each item, multiply by three and then keep even items:
+Take each item, multiply by three and then keep even items:
 
+```
 (for [x [0 1 2 3 4 5]            ; x is each element in the set
                :let [y (* x 3)]  ; y is x * 3
                :when (even? y)]  ; keep only those y's that are even
            y)                    ; return the y's
 (0 6 12)
+```
 
 ;; Mapcat can be useful here:
 
+```
 (mapcat (fn [[k v]]
                  (for [[k2 v2] v]
                    (concat [k k2] v2)))
@@ -491,25 +520,30 @@ and then yields a sequence of exprs.
            :b {:x (1 2) :z (5 6)}})
 
 ((:a :x 1 2) (:a :y 3 4) (:b :x 1 2) (:b :z 5 6))
+```
 
 ## Debugging Clojure
 
 First import the clojure.tools.trace library:
 
-;(ns alpen.core
-;   (:require [clojure.repl :as r]
-;             [clojure.tools.trace :as t] :reload-all))
+```
+(ns alpen.core
+   (:require [clojure.repl :as r]
+             [clojure.tools.trace :as t] :reload-all))
+```
 
 or
-
+```
 (ns offline-4clojure.p96
    (:use clojure.test)
    (:use clojure.tools.trace))
+```
 
 Then you can use:
 
-(t/trace :tagname (*2 3))
+`(t/trace :tagname (*2 3))`
 
+```
 (t/deftrace dropnth2
   "drop the nth item from a sequence"
   [coll n]
@@ -519,13 +553,15 @@ Then you can use:
       (recur
         (conj result (take (dec n) c))
         (drop n c)))))
+```
 
 or if the function name is "__", as in: (defn __ [x] (identity x))
 
-(trace-vars __)
+`(trace-vars __)`
 
 will give you:
 
+```
 (= (__ '(:a (:b nil nil) (:b nil nil))) true)
 TRACE t2758: (offline-4clojure.p96/__ (:a (:b nil nil) (:b nil nil)))
 TRACE t2758: => true
@@ -538,18 +574,23 @@ TRACE t2761: => true
 TRACE t2764: (offline-4clojure.p96/__ (:a (:b nil nil) (:c nil nil)))
 TRACE t2764: => true
 => false
+```
 
-;;; What does the output look like?
+What does the output look like?
 
 ## Clojure Idioms
 
 Remove nil items from a set you should use:
 
-(remove nil? my-seq)
+`(remove nil? my-seq)
 
 but you might also see:
 
+```
 (filter identity my-seq)
+```
 or
+```
 (keep identity my-seq )
+```
 

@@ -28,12 +28,14 @@
 
 # Files and Tabs
 
-- Recent Files : Command-E
+- Split Vertically : Use action menu
+- Split Horizontally : Use action menu
+- Switcher : Command-E
 - Go to File Dialog : Shift-Command-N
 - Close Tab : Command-W
 
-- Go to Next Splitter : 
-- Go to Previous Splitter :
+- Go to Next Splitter : Alt-Tab 
+- Go to Previous Splitter : 
 
 - Show Navigation Bar : Function-Alt-Left
 - Show Related Files : Function-Alt-Command-Left
@@ -41,16 +43,17 @@
 
 # Actions
 
-- Show Action / Command Pallette : Shift-Command-P
-- Reformat code : ??
+- Show Action / Command Pallette : Command-A
+- Reformat code : Use Action Menu
+- Intentions : Alt-Enter
 
 # Clojure Specific Actions
 
-- Start Local REPL : 
-- Jump to REPL : 
+- Start Local REPL : Control-R
+- Jump to REPL : Command-M
 - Jump back to editor : ESC
-- Load File in REPL : 
-- Run form before cursor in REPL : 
+- Load File in REPL : Command-I, L
+- Run form before cursor in REPL :  
 - Switch REPL NS to current file:
 - Sync files in REPL : 
 - Toggle structural editing : 
