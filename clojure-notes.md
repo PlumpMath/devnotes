@@ -382,13 +382,18 @@ digit? (fn [c] (re-find #"\d" (str c)))
 
 Takes a string and returns a string containing all caps.
 
+```
 (fn [x]
   (apply str (filter #(re-find #"[A-Z]" (str %)) (seq x))))
+```
 
-#(apply str (re-seq #"[A-Z]" %))
 
 ## Regular Expressions 
 
+
+```
+#(apply str (re-seq #"[A-Z]" %))
+```
 
 Extract the 
 ```
