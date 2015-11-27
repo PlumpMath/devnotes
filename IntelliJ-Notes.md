@@ -1,6 +1,13 @@
 # Intellij EAP 13 with Cursive Clojure EAP Plugin
 
-# Navigation
+## General Notes
+
+Editor tab and tool window layouts are called "contexts". 
+
+To save a window layout : Tools -> Tasks & Contexts -> Save Context  
+
+
+## Navigation
 
 - AceJump : Command-U
 - Move Caret to Code Block Begin : Command-[
@@ -14,19 +21,18 @@
 
 - Control-Enter : Submit dialog (like checkin)
 
-# Selection
+## Selection
 
 - Select Word : Command-D
 
-# Editing
+## Editing
 
 - Kill Line (Yank) : Command-Y, Control-k
 - Column Selection : Command-Shift-Multiply
 - Hippie-Completion? : 
 - Insert Comment : Command-/
 
-
-# Files and Tabs
+## Files and Tabs
 
 - Split Vertically : Use action menu
 - Split Horizontally : Use action menu
@@ -41,20 +47,31 @@
 - Show Related Files : Function-Alt-Command-Left
 - Find in Current Files : Command-F
 
-# Actions
+- Dismiss active tool window : Shift-Esc
+- Event Log: None assigned - use action menu
+
+
+## Actions
 
 - Show Action / Command Pallette : Command-A
 - Reformat code : Use Action Menu
 - Intentions : Alt-Enter
+- Search across project ("find in path") :  
 
-# Clojure Specific Actions
+## Documentation 
+
+- Show Parameters : Command-P
+- Show Quick Docs : Control-J
+- Show Quick Definition (i.e. show source) : Command-Y
+
+## Clojure Specific Actions
 
 - Start Local REPL : Control-R
 - Jump to REPL : Command-M
 - Jump back to editor : ESC
 - Load File in REPL : Command-I, L
 - Run form before cursor in REPL :  
-- Switch REPL NS to current file:
+- Switch REPL NS to current file: 
 - Sync files in REPL : 
 - Toggle structural editing : 
 - Run Selected Text in REPL :
@@ -63,7 +80,7 @@
 - Next REPL History item : Command-Down
 - Previous REPL History item : Command-Up
  
-# Structural Editing:
+## Structural Editing:
 
 - Kill Sexp :
 - Kill :

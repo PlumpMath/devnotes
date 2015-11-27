@@ -551,6 +551,20 @@ Take each item, multiply by three and then keep even items:
 
 First import the clojure.tools.trace library:
 
+Simple debugging of let forms:
+
+```
+(fn [n]
+  (let [expl (map #(Character/getNumericValue %) (str n))
+        lhs  (if (even? (count expl)) (take (/ (count expl) 2) expl) (take (int (Math/floor (double (/ (count expl) 2)))) expl))
+        rhs  (if (even? (count expl)) (drop (/ (count expl) 2) expl) (drop (int (Math/ceil (double (/ (count expl) 2)))) expl))
+        _ (println "lhs: " lhs "rhs: " rhs)
+        ]
+    (if (= (reduce + lhs) (reduce + rhs))
+      true
+      false)))
+```
+
 ```
 (ns alpen.core
    (:require [clojure.repl :as r]
