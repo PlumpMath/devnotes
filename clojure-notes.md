@@ -265,7 +265,7 @@ user=> (->> (range)
 
 ## Sequences
 
-Most of Clojure's core data structures are built around sequences. It's a wildly useful abastraction and understanding sequences is one of the first things you should get comfortable with.
+Most of Clojure's core data structures are built around sequences. It's a wildly useful abstraction and understanding sequences is one of the first things you should get comfortable with.
 
 ### Seq
 
@@ -287,6 +287,25 @@ nil
 user=> (seq "abc")
 (\a \b \c)
 
+### Changing Sequences
+
+#### Conj
+
+conj returns a new sequence of the same type with arguments added.
+
+Note: the syntax of conj is [coll x] so,
+
+```
+(conj #{} #{ #{1 3} #{1 2}})
+=> #{#{#{1 3} #{1 2}}}
+```
+
+but...
+
+```
+(conj #{#{1 3} #{1 2}} #{})
+=> #{#{} #{1 3} #{1 2}}
+```
 
 ### Drop
 
@@ -300,7 +319,8 @@ user=> (drop 2 [1 2 3 4])
 user=> (drop -1 [1 2 3 4])
 (1 2 3 4)
 
-### Vec
+
+### Vectors
 
 (vec coll)
 Creates a new vector containing the contents of coll.
@@ -598,4 +618,25 @@ or
 ```
 (keep identity my-seq )
 ```
+
+# Questions for Eric at Lispcast
+
+## Debugging:
+
+How to debug / trace a function that's not working properly?
+clojure.tools.trace works but only for recursive functions (doesn't work for loop / recur)
+__ (println #(:foo foo :bar bar)) trick doesn't work in (loop / recur bindings)
+Cursive doesn't seem to work for Offline-4Clojure
+
+
+# Areas to Work On:
+
+## Recursive algorithms.
+
+Powerset kicked my ass. Both the iterative algorithms and the recursive algorithms
+
+
+
+
+
 
