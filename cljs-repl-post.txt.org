@@ -1,0 +1,758 @@
+Exploring the ClojureScript REPL
+
+Hi All,
+
+I just wrote a blog post for beginner CLJS developers (like me) which
+illustrates a typical REPL session complete with many of the initial
+mistakes that I made in the hopes that anyone new to interactive REPL
+development may avoid the same pitfalls.
+
+http://www.alexeberts.com/exploring-the-clojurescript-repl/
+
+It picks up where the Quick Start guide left off and covers:
+
+-  Navigating ClojureScript namespaces.
+-  The connection between ClojureScript vars and JavaScript objects.
+-  Using Chrome DevTools to explore a ClojureScript app running in the
+   browser.
+-  Interactive REPL development.
+
+Comments, corrections and improvements most welcome! best wishes, Alex
+
+#+BEGIN_HTML
+  <div class="highlight">
+#+END_HTML
+
+#+BEGIN_HTML
+  <h4 style="display: inline;">
+#+END_HTML
+
+TL;DR:
+
+#+BEGIN_HTML
+  </h4>
+#+END_HTML
+
+#+BEGIN_HTML
+  <p style="display: inline;">
+#+END_HTML
+
+A beginner-level exploration of a ClojureScript REPL session complete
+with mistakes of the type made by me so that you might avoid these
+common pitfalls when starting your own ClojureScript adventures.
+
+#+BEGIN_HTML
+  </p>
+#+END_HTML
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+I love the interactivity of working with code in a Clojure(Script) REPL
+(REPL = "read-evaluate-print-loop"). Understanding a few basic concepts
+can help ease the learning curve and give you the tools to bootstrap
+further exploration. I hope this annotated transcript gives you a
+headstart in your own ClojureScript REPL explorations!
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+ClojureScript Quick Start
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div class="highlight">
+#+END_HTML
+
+This session is based on the ClojureScript Quick Start guide which
+illustrates how to configure a simple ClojureScript project without the
+need for external tools (like Leiningen). If you're new to
+ClojureScript, the ClojureScript Quick Start guide is essential reading
+and you should read that first or this post won't make much sense.
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div class="highlight">
+#+END_HTML
+
+Warning! ClojureScript is under heavy development so be aware that if
+something below doesn't work it's probably because you are using an
+older version of ClojureScript that is missing features available in a
+newer build. Code in this post is guaranteed to work if you setup your
+code as described in the ClojureScript Quick Start (which at the time of
+this article is based on ClojureScript build 3162). I strongly recommend
+that if you're new to ClojureScript that you start with this simplified
+setup and then use build tools like Leiningen or Boot once you
+understand how namespaces work and you're comfortable debugging
+namespace dependency issues.
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+Adding to the Project
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+Let's begin where the ClojureScript Quick Start project left off with a
+directory named hello-world which contains:
+
+#+BEGIN_HTML
+  <ul>
+#+END_HTML
+
+#+BEGIN_EXAMPLE
+    <li>An <code>index.html</code> file</li>
+    <li>A <code>repl.clj</code> file</li>
+    <li>A <code>src</code> directory containing a <code>core.cljs</code> file</li>
+#+END_EXAMPLE
+
+#+BEGIN_HTML
+  </ul>
+#+END_HTML
+
+Here's what your core.cljs should look like (I've added a couple of
+small things so have something more to work with).
+
+#+BEGIN_HTML
+  <pre>(ns hello-world.core
+    (:require [clojure.browser.repl :as repl]))
+
+  (defonce conn
+    (repl/connect "http://localhost:9000/repl"))
+
+  (enable-console-print!)
+
+  (println "Hello Cruel World!")          
+
+  (defonce init-state {:text "Hello, this is: " :numbers ["one" "two" "four"]})
+
+  (defonce app-state (atom init-state))
+
+  (defn foo [a b]
+    (* a b))
+
+  (defn bar [d e]
+    (+ d e))
+  </pre>
+#+END_HTML
+
+I've setup a GitHub repo with the code ready to go (remember to copy the
+standalone cljs.jar file into the top-level /hello-world/ directory if
+you clone the repo or nothing will work!).
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+Starting the ClojureScript Browser REPL
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+Start a REPL from terminal.app as you did in the Quick Start guide:
+
+#+BEGIN_HTML
+  <pre>=&gt; rlwrap java -cp cljs.jar:src clojure.main REPL.clj
+  Compiling client js ...
+  Waiting for browser to connect ...
+  </pre>
+#+END_HTML
+
+(in Chrome go to: http://localhost:9000) and then in the REPL you just
+started you should see:
+
+#+BEGIN_HTML
+  <pre>Watch compilation log available at: out/watch.log
+  To quit, type: :cljs/quit</pre>
+#+END_HTML
+
+#+BEGIN_HTML
+  <div class="highlight">
+#+END_HTML
+
+If you don't see the Watch compilation log message right away try
+refreshing your browser - depending on your configuration it can take a
+couple of tries to establish a connection.
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+If you got the ready message, Congrats! You've now got a REPL connected
+to your browser.
+
+Now that we have a basic REPL setup, let's take a moment to understand
+how the browser REPL system works:
+
+#+BEGIN_HTML
+  <ol>
+#+END_HTML
+
+#+BEGIN_EXAMPLE
+    <li>The <code>java</code> command starts a Java Virtual Machine in terminal.app and loads the ClojureScript jar file (which contains the prebuilt ClojureScript core).</li>
+    <li>The Clojure main function is invoked and using the information in the <code>repl.clj</code> file it compiles the ClojureScript code including the <code>hello-world/src/core.cljs</code> file into JavaScript and copies it into the <code>out</code> directory.</li>
+    <li>A basic web server is started on your <code>localhost</code> and waits for connections on port 9000.</li>
+    <li>The ClojureScript REPL server is started in JVM and waits for a connection from the browser (the REPL client).</li>
+    <li>When a browser connects to <code>http://localhost:9000</code> the server delivers the JavaScript files, including:
+#+END_EXAMPLE
+
+#+BEGIN_HTML
+  <ul>
+#+END_HTML
+
+#+BEGIN_EXAMPLE
+    <li>The Google Closure library which is responsible for JavaScript dependency management and optimizing JavaScript compliation. (note that this is "closure" not "clojure").</li>
+    <li>The compiled ClojureScript core library (originally contained in the <code>cljs.jar</code>).</li>
+    <li>The compiled files for your program.</li>
+#+END_EXAMPLE
+
+#+BEGIN_HTML
+  </ul>
+#+END_HTML
+
+#+BEGIN_HTML
+  </li>
+#+END_HTML
+
+#+BEGIN_EXAMPLE
+    <li>ClojureScript code typed into the REPL is compiled to JavaScript by the JVM running in the terminal.</li>
+    <li>The JavaScript code is sent to browser REPL client for execution over port 9000.</li>
+    <li>The result is sent back to the REPL server in the terminal and displayed.</li>
+#+END_EXAMPLE
+
+#+BEGIN_HTML
+  </ol>
+#+END_HTML
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+First Explorations
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+OK, so now we know the how data flows from the terminal to the browser
+and back again, let's figure out how to get around in the REPL.
+
+Having a mental model of your current "location" in the REPL and how to
+access the vars and functions available is the key to using the REPL
+effectively. Our first goal then, is to find out which vars are
+available and how to call them.
+
+When the REPL starts up we're put into the default REPL namespace which
+is cljs.user. The first time you fire up the REPL cljs.user is empty but
+it does have some basic functions defined that have been brought in from
+the cljs.repl namespace. The first function we'll use is dir which
+prints a sorted directory of public vars in a namespace. Let's try it
+out:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (dir cljs.user)
+  nil</pre>
+#+END_HTML
+
+Well, that's not much help is it? What's going on here? Like the Clojure
+function of the same name, dir is showing us the functions that are
+defined in the namespace cljs.user. Since there are no functions in this
+namespace we're not seeing anything displayed in the REPL. Note that dir
+prints only the functions and vars in the specified namespace and not
+"all the functions available in all namespaces". If we define a new var
+in the cljs.user namespace then we can use dir to see that it's there:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (def avariable :foo)
+  :foo
+  cljs.user=&gt; (dir cljs.user)
+  avariable
+  nil
+  cljs.user=&gt; avariable
+  :foo
+  </pre>
+#+END_HTML
+
+So far so good. So how do we access code in another namespace like the
+vars or functions in our hello-world application? To access these
+functions we first need to require the namespace:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (require '[hello-world.core :as hello])
+  nil</pre>
+#+END_HTML
+
+...and now we can explore the vars in the loaded namespace
+hello-world.core
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (dir hello-world.core)
+  app-state
+  bar
+  conn
+  foo
+  init-state
+  nil
+  </pre>
+#+END_HTML
+
+Cool! You'll recognize the functions from the file
+hello-world/src/hello-world/core.cljs. Next, let's interact with our
+application as it is running in the browser:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; app-state
+  WARNING: Use of undeclared Var cljs.user/app-state at line 1 &lt;cljs REPL&gt;
+  nil</pre>
+#+END_HTML
+
+Bleck... why didn't that work? The hint is in this part of the error:
+...cljs.user/app-state. The call fails because we're currently in the
+cljs.user namespace and we're trying to call a var in the
+hello-world.core namespace.
+
+Let's try that again using the fully qualified name:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (hello-world.core/app-state)
+  TypeError: hello_world.core.app_state.call is not a function
+  TypeError: hello_world.core.app_state.call is not a function
+  ... elided ...
+  </pre>
+#+END_HTML
+
+Crap. Still not working. What's wrong? The hint is
+"...hello\_world.core.app\_state.call is not a function. This call fails
+because we're trying to call the atom app\_state as if it were a
+function. (ClojureScript is a lisp and assumes that the first item
+inside a set of parens is a function to be evaluated).
+
+To get the contents of a var or atom at the REPL just use the name
+without parens:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; hello-world.core/app-state
+  #&lt;Atom: {:text "Hello, this is: ", :numbers ["one" "two" "four"]}&gt;
+  </pre>
+#+END_HTML
+
+Yay! Alternatively we can switch to the namespace with in-ns and call
+the unqualified var name:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (in-ns hello-world.core)
+  java.lang.UnsupportedOperationException: nth not supported on this type: Symbol
+  at clojure.lang.RT.nthFrom(RT.java:857)
+  at clojure.lang.RT.nth(RT.java:807)
+  ... elided ....
+  at clojure.main.main(main.java:37)
+  </pre>
+#+END_HTML
+
+Arrgh!! Balls. Now what's happening? Turns out that in-ns (unlike dir)
+takes a quoted namespace name like so: (notice the quote symbol before
+hello-world.core)
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (in-ns 'hello-world.core)
+  nil
+  hello-world.core=&gt; app-state
+  #&lt;Atom: {:text "Hello, this is: ", :numbers ["one" "two" "four"]}&gt;
+  </pre>
+#+END_HTML
+
+So how do we know if a function takes a quoted symbol or not? I'm not
+sure... I will pose the question to a more experienced cljs developer
+and update when I know more.
+
+Anyway, onwards! Let's switch back to cljs.user so we have access to the
+REPL functions for the next step.
+
+#+BEGIN_HTML
+  <pre>hello-world.core=&gt; (in-ns 'cljs.user)</pre>
+#+END_HTML
+
+Let's make a change to our application's app-state:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt;(swap! hello-world.core/app-state assoc :player1 "bob")
+  {:text "Hello, this is: ", :numbers ["one" "two" "four"], :player1 "bob"}</pre>
+#+END_HTML
+
+And if we query app-state we see that it did, indeed, update:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; hello-world.core/app-state
+  #&lt;Atom: {:text "Hello, this is: ", :numbers ["one" "two" "four"], :player1 "bob"}&gt;</pre>
+#+END_HTML
+
+Fun! Now's a good time to see what's happening in the browser...
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+Browser Explorations
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+In the Chrome tab where your application is running (i.e. the tab that
+loaded http://localhost:9000), open devtools (menu item: View ->
+Developer -> Developer Tools) and select the "Console" tab.
+
+At the prompt start typing hello. The console should complete
+"hello\_world" for you indicating that it's an object in the global
+JavaScript namespace and which is "known" to Chrome.
+
+#+BEGIN_HTML
+  <div class="highlight">
+#+END_HTML
+
+(Notice that the original dash in hello-world has been turned into an
+underscore "\_". This is a feature of the ClojureScript compiler and
+happens to all names that contain dashes).
+
+#+BEGIN_HTML
+  </div>
+#+END_HTML
+
+The JavaScript object equivalent of our ClojureScript var is:
+hello\_world.core.app\_state but instead of a ClojureScript atom it's a
+JavaScript object of type "cljs.core.Atom" which we can see if we invoke
+the object in Dev Tools:
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+Exploring ClojureScript Core Namespaces
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+So we've seen how to access your ClojureScript vars from the REPL and
+where they are and what they look like in the browser. Now let's explore
+what other namespaces we have to play with.
+
+While there's no simple command like Clojure's all-ns to show all
+namespaces at the ClojureScript REPL[1], a little digging into the
+internals of ClojureScript will turn up what we're looking for. Chrome
+Devtools is helpful again in this case:
+
+The ClojureScript functions are contained in the cljs object. Start
+typing 'cljs' in the DevTools console. You should see a list of
+JavaScript objects that are available in the global JavaScript namespace
+(if you don't see a popup, try refreshing the browser page).
+
+In addition to the native JavaScript functions associated with the
+"cljs" object (valueOf etc.) we also find:
+
+#+BEGIN_HTML
+  <ul>
+#+END_HTML
+
+#+BEGIN_EXAMPLE
+    <li>core</li>
+    <li>repl</li>
+    <li>pprint</li>
+    <li>user</li>
+#+END_EXAMPLE
+
+#+BEGIN_HTML
+  </ul>
+#+END_HTML
+
+We already know about the cljs.user namespace so let's explore the
+cljs.repl namespace from our ClojureScript REPL. Go back to your
+terminal and type:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (dir cljs.repl)
+  apropos
+  dir
+  doc
+  err-out
+  find-doc
+  print-doc
+  pst
+  source
+  nil</pre>
+#+END_HTML
+
+Interesting. Here we see our old friend dir and other useful functions
+that are automatically required into the cljs.usernamespace when the
+browser REPL starts up. doc is essential for learning the ClojureScript
+core functions:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (doc reduce)
+  -------------------------
+  cljs.core/reduce
+  ([f coll] [f val coll])
+  f should be a function of 2 arguments. If val is not supplied,
+  returns the result of applying f to the first 2 items in coll, then
+  applying f to that result and the 3rd item, etc. If coll contains no
+  items, f must accept no arguments as well, and reduce returns the
+  result of calling f with no arguments. If coll has only 1 item, it
+  is returned and f is not called. If val is supplied, returns the
+  result of applying f to val and the first item in coll, then
+  applying f to that result and the 2nd item, etc. If coll contains no
+  items, returns val and f is not called.
+  nil</pre>
+#+END_HTML
+
+And find-doc is great if you don't quite know which function you're
+looking for.
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (find-doc "reduce")
+  -------------------------
+  -kv-reduce
+  ([coll f init])
+  Reduces an associative collection and returns the result. f should be
+  a function that takes three arguments.
+  -------------------------
+  -reduce
+  ([coll f] [coll f start])
+  f should be a function of 2 arguments. If start is not supplied,
+  returns the result of applying f to the first 2 items in coll, then
+  applying f to that result and the 3rd item, etc.
+  -------------------------
+  ... and a ton of other stuff (elided)...
+  </pre>
+#+END_HTML
+
+So, what's available in cljs.core?
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (dir cljs.core)
+  *
+  *1
+  *2
+  *3
+  *ClojureScript-version*
+  *e
+  *flush-on-newline*
+  *loaded-libs*
+  *main-cli-fn*
+  *print-dup*
+  *print-fn*
+  *print-length*
+  *print-level*
+  *print-meta*
+  *print-newline*
+  *print-readably*
+  *target*
+  *unchecked-if*
+  +
+  -
+  -&gt;
+  -&gt;&gt;
+  ... elided ...
+  </pre>
+#+END_HTML
+
+Whoa billy. That's a lot of stuff.. you've probably figured out already
+that's where the bulk of the ClojureScript functions live. Ok, so what
+happens if you add a new function to hello-world.core and want to make
+it available in the running browser environment? Let's try it!
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+Interactive REPL Development
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+To me interacting with your running application is what REPL-driven
+development is what it's all about.
+
+Let's add a simple function to our hello-world.core namespace by editing
+the core.cljs file. In your editor add something like the following
+simple function:
+
+#+BEGIN_HTML
+  <pre>(defn bing [n d]
+  (/ n d))
+  </pre>
+#+END_HTML
+
+Save the file. Because we have the :watch option specified in repl.clj
+the file should be compiled automatically. Now go back to the REPL to
+check if it's in the namespace:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (dir hello-world.core)
+  app-state
+  bar
+  bing
+  conn
+  foo
+  init-state
+  nil
+  </pre>
+#+END_HTML
+
+Great! now let's use it:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (hello-world.core/bing 10 5)
+  TypeError: Cannot read property 'call' of undefined
+  TypeError: Cannot read property 'call' of undefined
+  ... elided ...
+  </pre>
+#+END_HTML
+
+Bugger.. what happened? If we go back to the browser and inspect the
+hello\_world.core object we see that the bing object isn't there:
+
+However, if we refresh the browser and we inspect the var again we see
+that bing is now available in the hello\_world.core object:
+
+And if we try to call it from the REPL everything works as expected:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (hello-world.core/bing 10 5)
+  2
+  </pre>
+#+END_HTML
+
+But be aware that if you refresh the page, the browser will re-download
+your application from scratch and any in-memory vars that you updated
+from the REPL will be blown-away (not what we want).
+
+Remember when we updated the app-state with a :player1 key? Well, it's
+not there anymore:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; hello-world.core/app-state
+  #&lt;Atom: {:text "Hello, this is: ", :numbers ["one" "two" "four"]}&gt;
+  </pre>
+#+END_HTML
+
+Damn. Luckily there's an easy way to update the application while it's
+running in the browser. Just use the :reload option in the require
+function like so:
+
+#+BEGIN_HTML
+  <pre>cljs.user=&gt; (require '[hello-world.core :as hello] :reload)
+  nil
+  </pre>
+#+END_HTML
+
+Whenever you modify and then save a ClojureScript source file that is
+being watched (in our case any cljs file in the src directory) you will
+need to require the namespace again with the :reload keyword to make it
+available in the execution environment (in our case, the browser). The
+:reload option appears to be quite smart and maintains the browers
+internal state so functions defined before the reload are available
+after the reload (but I'm not 100% certain so don't quote me on that).
+
+#+BEGIN_HTML
+  <h2>
+#+END_HTML
+
+That's It!
+
+#+BEGIN_HTML
+  </h2>
+#+END_HTML
+
+I hope you've enjoyed this romp through the ClojureScript REPL and it
+helps you with your own explorations. We're only just scratching the
+surface of what's possible but you now have the tools you need to figure
+out more advanced interactions. Comments, corrections and suggestions
+for improvements welcome! Happy trails.
+
+#+BEGIN_HTML
+  <h3>
+#+END_HTML
+
+Notes
+
+#+BEGIN_HTML
+  </h3>
+#+END_HTML
+
+[1] While ClojureScript does implement a function called all-ns in the
+cljs.analyzer.api namespace it's for use by the ClojureScript compiler
+and not available at the ClojureScript REPL. It's possible there may be
+an all-ns available from cljs.repl in the future.

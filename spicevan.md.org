@@ -1,0 +1,146 @@
+* Spicevan
+  :PROPERTIES:
+  :CUSTOM_ID: spicevan
+  :END:
+
+Notes for Spicevan price comparison engine.
+
+** Spicevan Main url
+   :PROPERTIES:
+   :CUSTOM_ID: spicevan-main-url
+   :END:
+
+https://spicevan.com
+
+** Front End Server
+   :PROPERTIES:
+   :CUSTOM_ID: front-end-server
+   :END:
+
+Kits Server (front-end) https://v3.spicevan.com
+
+** Backend server
+   :PROPERTIES:
+   :CUSTOM_ID: backend-server
+   :END:
+
+Websocket server endpoint North Van (5th street -- where Andrea lives)
+
+wss://v5.spicevan.com:443
+
+pcbe - price compare back end pcbe-web - front end (re-frame) database
+is the database
+
+Site is served with Nginx:
+
+/etc/nginx/
+
+qa user is where the app is deployed on v3 and v5
+
+Redmine file password: FACy9J5LM
+
+*** Old Repos:
+    :PROPERTIES:
+    :CUSTOM_ID: old-repos
+    :END:
+
+git clone git@v5.spicevan.com:pcbe.git git clone
+git@v5.spicevan.com:pcbe-web.git git clone
+git@v5.spicevan.com:gitolite-admin.git
+
+** Web Dev Tools Setup
+   :PROPERTIES:
+   :CUSTOM_ID: web-dev-tools-setup
+   :END:
+
+** Running The Project
+   :PROPERTIES:
+   :CUSTOM_ID: running-the-project
+   :END:
+
+*** Backend
+    :PROPERTIES:
+    :CUSTOM_ID: backend
+    :END:
+
+Log into v5:
+
+=ssh v5=
+
+become Fenton
+
+=sudo su - fenton=
+
+Check status of services:
+
+=sudo systemctl status pcbe= =sudo systemctl status contdel=
+
+Restart services:
+
+=sudo systemctl start contdel=
+
+Available system commands:
+
+=stop start restart status=
+
+To find out which websocket port the backend is running on:
+
+=fen-profiles.clj= in pcbe project root. ### Frontend
+
+In Terminal:
+
+#+BEGIN_SRC clojure
+    boot cider dev
+#+END_SRC
+
+*** In Emacs:
+    :PROPERTIES:
+    :CUSTOM_ID: in-emacs
+    :END:
+
+Start CLJ Repl (cider-connect) :
+
+To Start CLJS Repl
+
+=(start-repl)= at the clojure repl prompt.
+
+then:
+
+Compiles & loads namespace in repl : C-u C-c A-z
+
+** Emacs
+   :PROPERTIES:
+   :CUSTOM_ID: emacs
+   :END:
+
+Checkout "hide-show" in Emacs. Checkout "narrowing" and widening in
+Emacs.
+
+*** Cider Keybindings
+    :PROPERTIES:
+    :CUSTOM_ID: cider-keybindings
+    :END:
+
+Start repl: Cmd C Alt j Jump to symbol : Alt . (alt period) Compiles
+Loads and puts cursor in Repl : C-u C-c A-z Cider interrupt : C-c C-c
+
+*** Native Mobile Development
+    :PROPERTIES:
+    :CUSTOM_ID: native-mobile-development
+    :END:
+
+Native Mobile
+
+re-natal : ios clojurescript
+
+** Notes
+   :PROPERTIES:
+   :CUSTOM_ID: notes
+   :END:
+
+*** Spacial Indexing for Datomic
+    :PROPERTIES:
+    :CUSTOM_ID: spacial-indexing-for-datomic
+    :END:
+
+https://www.youtube.com/watch?v=mmyNlNQ5wf8

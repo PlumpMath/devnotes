@@ -1,0 +1,129 @@
+* Intellij EAP 13 with Cursive Clojure EAP Plugin
+  :PROPERTIES:
+  :CUSTOM_ID: intellij-eap-13-with-cursive-clojure-eap-plugin
+  :END:
+
+** General Notes
+   :PROPERTIES:
+   :CUSTOM_ID: general-notes
+   :END:
+
+Editor tab and tool window layouts are called "contexts".
+
+To save a window layout : Tools -> Tasks & Contexts -> Save Context
+
+** Navigation
+   :PROPERTIES:
+   :CUSTOM_ID: navigation
+   :END:
+
+-  AceJump : Command-U
+-  Move Caret to Code Block Begin : Command-[
+-  Move Caret to Code Block End : Command-]
+-  Previous Tab : Shift-Command-[
+-  Previous Tab : Shift-Command-[
+-  Page Up : Function-Up
+-  Page Down : Function-Down
+-  Home : Function-Command-Left
+-  End : Function-Command-Right
+
+-  Control-Enter : Submit dialog (like checkin)
+
+** Selection
+   :PROPERTIES:
+   :CUSTOM_ID: selection
+   :END:
+
+-  Select Word : Command-D
+
+** Editing
+   :PROPERTIES:
+   :CUSTOM_ID: editing
+   :END:
+
+-  Kill Line (Yank) : Command-Y, Control-k
+-  Column Selection : Command-Shift-Multiply
+-  Hippie-Completion? :
+-  Insert Comment : Command-/
+
+** Files and Tabs
+   :PROPERTIES:
+   :CUSTOM_ID: files-and-tabs
+   :END:
+
+-  Split Vertically : Use action menu
+-  Split Horizontally : Use action menu
+-  Switcher : Command-E
+-  Go to File Dialog : Shift-Command-N
+-  Close Tab : Command-W
+
+-  Go to Next Splitter : Alt-Tab
+-  Go to Previous Splitter :
+
+-  Show Navigation Bar : Function-Alt-Left
+-  Show Related Files : Function-Alt-Command-Left
+-  Find in Current Files : Command-F
+
+-  Dismiss active tool window : Shift-Esc
+-  Event Log: None assigned - use action menu
+
+** Actions
+   :PROPERTIES:
+   :CUSTOM_ID: actions
+   :END:
+
+-  Show Action / Command Pallette : Command-A
+-  Reformat code : Use Action Menu
+-  Intentions : Alt-Enter
+-  Search across project ("find in path") :
+
+** Documentation
+   :PROPERTIES:
+   :CUSTOM_ID: documentation
+   :END:
+
+-  Show Parameters : Command-P
+-  Show Quick Docs : Control-J
+-  Show Quick Definition (i.e. show source) : Command-Y
+
+** Clojure Specific Actions
+   :PROPERTIES:
+   :CUSTOM_ID: clojure-specific-actions
+   :END:
+
+-  Start Local REPL : Control-R
+-  Jump to REPL : Command-M
+-  Jump back to editor : ESC
+-  Load File in REPL : Command-I, L
+-  Run form before cursor in REPL :\\
+-  Switch REPL NS to current file:
+-  Sync files in REPL :
+-  Toggle structural editing :
+-  Run Selected Text in REPL :
+-  Execute Last S-Expression :
+-  Start Clojure Console :
+-  Next REPL History item : Command-Down
+-  Previous REPL History item : Command-Up
+
+** Structural Editing:
+   :PROPERTIES:
+   :CUSTOM_ID: structural-editing
+   :END:
+
+-  Kill Sexp :
+-  Kill :
+-  Barf Forwards :
+-  Barf Backwards :
+-  Slurp Forwards :
+-  Slurp Backwards :
+-  Join
+-  Split
+-  Splice Sexp : Option-S
+-  Raise :
+-  Close () and newline : Shift-Command-0
+-  Close [] and newline : Command-]
+-  Close {} and newine : Shift-Command-]
+-  Wrap with "" : Shift-Command-'
+-  Wrap with () : Shift-Command-9
+-  Wrap with [] : Command-[
+-  Wrap with {} : Shift-Command-[
