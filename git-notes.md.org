@@ -5,7 +5,7 @@
 
 ssh git server: git@beefy.local
 
-ssh login: ssh git@beefy.local pw: admin password
+ssh login: ssh git@beefy.local 
 
 repo path: /Users/git/gitrepos/reponame.git
 
@@ -14,17 +14,24 @@ repo path: /Users/git/gitrepos/reponame.git
   :CUSTOM_ID: setup-a-new-local-repo
   :END:
 
-Example with a repo /Users/zand/dev/clojure/alpen
+Example with a repo /Users/zand/dev/clojure/alpen:
 
-cd /Users/zand/dev/clojure/alpen git init (edit the .gitignore to
-exclude unwanted files) git add . git commit -m "Initial commit"
+#+begin_src bash :tangle yes
+# (edit the .gitignore to exclude unwanted files)
+cd /Users/zand/dev/clojure/alpen 
+git init 
+git add . 
+git commit -m "Initial commit"
+#+end_src
 
 * Setup a new repo on the server
   :PROPERTIES:
   :CUSTOM_ID: setup-a-new-repo-on-the-server
   :END:
 
-mkdir reponame.git cd reponame.git git init --bare
+mkdir reponame.git 
+cd reponame.git 
+git init --bare
 
 * Cloning a repo from the local server:
   :PROPERTIES:

@@ -8,30 +8,11 @@
    :CUSTOM_ID: todos
    :END:
 
-Increase left margin by 3 spaces?
-
-Install the following packages: * markdown mode - done * ace-jump - done
-* auto-complete - done * paredit - done * clojure-mode - done *
-clojure-test mode - done * nrepl - done * ac-nrepl - done * helm - needs
-setup (like goto anything in sublime) * ido mode (built in) - done * ido
-mode (ubiquitious) - done * expand-region (Highlight word under point) -
-done
-
-** Consider installing
-   :PROPERTIES:
-   :CUSTOM_ID: consider-installing
-   :END:
-
--  YaSnippets http://emacsrocks.com/e06.html
--  Clojure snippets are in the repo dir
--  Key chord mode http://emacsrocks.com/e07.html
-
 ** Stuff to Learn
    :PROPERTIES:
    :CUSTOM_ID: stuff-to-learn
    :END:
 
--  Rectangles http://emacsrocks.com/e01.html
 
 ** Key Bindings
    :PROPERTIES:
@@ -507,3 +488,14 @@ RET nrepl-close
 Inspect symbol : C-c C-i (on any expression, will prompt to accept) Next
 object : TAB (Shift / TAB) Inspect subobject : RET Pop to Parent obj : l
 (lower-case "L") Refresh inspector : g
+
+** Troubleshooting 
+
+Delete all compiled emacs lisp files from terminal: 
+(useful when upgrading emacs to a different major version)
+from: https://github.com/syl20bnr/spacemacs/issues/3129
+
+#+begin_src bash 
+cd ~/.emacs.d/
+find . -name '*.elc' | xargs rm
+#+end_src
