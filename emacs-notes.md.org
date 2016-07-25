@@ -7,6 +7,9 @@
    :PROPERTIES:
    :CUSTOM_ID: todos
    :END:
+Figure out where to put snippets under source control (github/dotfiles)
+
+Figure out how to turn off persistent highlighting on incremental search.
 
 ** Stuff to Learn
    :PROPERTIES:
