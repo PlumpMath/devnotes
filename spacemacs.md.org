@@ -127,11 +127,18 @@ before o : Add newline and insert after
    :CUSTOM_ID: buffers
    :END:
 
-SPC Tab : switch last and previous buffer in current window C-x C-s :
-save buffer (works in normal mode and insert) C-x b, SPC b b : switch to
-buffer using helm (helm-buffers-list) C-x C-s : save buffer SPC b M :
-swap buffers
+SPC Tab : switch last and previous buffer in current window 
+C-x C-s : save buffer (works in normal mode and insert) 
+C-x b, SPC b b : switch to buffer using helm (helm-buffers-list) 
+C-x C-s : save buffer 
+SPC b M : swap buffers
 
+*** Helm Buffers 
+
+SPC b b : Helm buffer list
+C-SPC : Toggle visual buffer marks
+M-D : Kill marked buffers (Alt - capital d)
+ 
 ** Windows
    :PROPERTIES:
    :CUSTOM_ID: windows
