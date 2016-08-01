@@ -159,6 +159,9 @@ SPC v : expand region
 3) Move to destination
 4) Press P to paste before cursor for p to paste after.
 
+** Files
+SPC f c : copy file aka "Save as"
+
 ** Spelling
    :PROPERTIES:
    :CUSTOM_ID: spelling
