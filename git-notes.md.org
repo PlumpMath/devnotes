@@ -16,15 +16,18 @@ repo path: /Users/git/gitrepos/reponame.git
 
 Example with a repo /Users/zand/dev/clojure/alpen
 
-cd /Users/zand/dev/clojure/alpen git init (edit the .gitignore to
-exclude unwanted files) git add . git commit -m "Initial commit"
+cd /Users/zand/dev/clojure/alpen 
+git init (edit the .gitignore to exclude unwanted files) 
+git add . git commit -m "Initial commit"
 
 * Setup a new repo on the server
   :PROPERTIES:
   :CUSTOM_ID: setup-a-new-repo-on-the-server
   :END:
 
-mkdir reponame.git cd reponame.git git init --bare
+mkdir reponame.git 
+cd reponame.git 
+git init --bare
 
 * Cloning a repo from the local server:
   :PROPERTIES:
@@ -78,13 +81,15 @@ Using Magit for Git integration: http://magit.github.io/magit/magit.html
   :CUSTOM_ID: magit-crash-course
   :END:
 
-M-x magit-status to see git status, and in the status buffer: s to stage
-files c to commit (type in your commit message then C-c C-c to save the
-message and commit) b b to switch to a branch
+M-x magit-status to see git status, and in the status buffer:
+s to stage files 
+c to commit (type in your commit message then C-c C-c to save the message and commit) 
+b b to switch to a branch
 
 Other handy keys:
 
-P P to do a git push F F to do a git pull try to press TAB
+P P to do a git push 
+F F to do a git pull 
 
 * General Git Notes
   :PROPERTIES:
@@ -93,7 +98,7 @@ P P to do a git push F F to do a git pull try to press TAB
 
 (from TutsPlus Git Essentials)
 
-* Git Configuration
+** Git Configuration
   :PROPERTIES:
   :CUSTOM_ID: git-configuration
   :END:
@@ -102,10 +107,10 @@ git config --global color.ui true
 
 -- makes the git output colour syntax highlighted.
 
-* Commit:
+** Commit:
   :PROPERTIES:
   :CUSTOM_ID: commit
-  :END:
+  :ENDffffff:
 
 "commit -a" the -a flag will commit changes to files that have already
 been staged. E.g. if you have untracked files in the working directory
@@ -119,7 +124,7 @@ string from the command line
 
 Flags can be combined: git commit -am 'the commit message'
 
-* Git Theory
+** Git Theory
   :PROPERTIES:
   :CUSTOM_ID: git-theory
   :END:
@@ -142,7 +147,7 @@ new feature etc. aiming for "encapsulated bits"
 The Git Repo Where all the changes have been saved - more in a future
 video "git internals"
 
-* Git Internals
+** Git Internals
   :PROPERTIES:
   :CUSTOM_ID: git-internals
   :END:
@@ -154,7 +159,7 @@ new commit is made then a new commit object is create that points to
 changed objects. Previous objects that have not been changed are
 referenced by this new commit object.
 
-* Git References
+** Git References
   :PROPERTIES:
   :CUSTOM_ID: git-references
   :END:
@@ -179,7 +184,7 @@ HEAD~ -> Commit 3 HEAD~2 -> Commit 2 HEAD~3 -> Commit 1
 (master branch) and commit 2 (feature branch) Head\^ = commit 1 Head\^2
 = commit 2
 
-* Git Diff
+** Git Diff
   :PROPERTIES:
   :CUSTOM_ID: git-diff
   :END:
@@ -207,7 +212,7 @@ To see changes for all files omit the filename (defaults to all files)
 
 How to compare files in different branches?
 
-* Git Log
+** Git Log
   :PROPERTIES:
   :CUSTOM_ID: git-log
   :END:
@@ -230,7 +235,7 @@ for all log variables: http://git-scm.com/docs/git-log
 
 "gitk" command is a tk interface for git-log
 
-* Git Branch
+** Git Branch
   :PROPERTIES:
   :CUSTOM_ID: git-branch
   :END:
@@ -269,7 +274,7 @@ git log --oneline --graph --all --decorate
 
 (from merge video) Deleting a branch : git branch -d branch-name
 
-* Git Merge / Rebase
+** Git Merge / Rebase
   :PROPERTIES:
   :CUSTOM_ID: git-merge-rebase
   :END:
@@ -290,7 +295,7 @@ git merge bug-fix-1
 which pulls the latest commit from bug-fix-1 into the master branch ->
 creates a new commit on master branch.
 
-* Rebase
+** Rebase
   :PROPERTIES:
   :CUSTOM_ID: rebase
   :END:

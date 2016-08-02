@@ -1,3 +1,4 @@
+#+OPTIONS: \n:t
 * Spacemacs Operations
   :PROPERTIES:
   :CUSTOM_ID: spacemacs-operations
@@ -19,26 +20,26 @@ bound to movement commands in spacemacs.
    :CUSTOM_ID: basic-operation
    :END:
 
-SPC : command prefix in Normal Mode (Orange) 
-ESC : Go from insert mode to Normal Mode 
+SPC : command prefix in Normal Mode (Orange)
+ESC : Go from insert mode to Normal Mode
 C-x : Prefix for Emacs commands
 C-u : Universal argument
 C-c : Mode specific key-bindings
 
-fd : quickly pressing fd will escape from anything in spacemacs C-g :
-cancel (keyboard-quit)
+fd : quickly pressing fd will escape from anything in spacemacs 
+C-g : cancel (keyboard-quit)
 
 SPC o : reserved for the user SPC m o : reserved for the user
 
 ** Getting Help 
-   KeyBindings for help:
+KeyBindings for help:
 
-   SPC h d f : describe function
-   SPC h d k : describe keybindings
-   SPC h d v : describe variable
-   SPC <f1> : search for documentation
-   
-   SPC h SPC : list all layers
+SPC h d f : describe function
+SPC h d k : describe keybindings
+SPC h d v : describe variable
+SPC <f1> : search for documentation
+
+SPC h SPC : list all layers
 
 ** Navigation
    :PROPERTIES:
@@ -84,13 +85,15 @@ SPC o : reserved for the user SPC m o : reserved for the user
      :CUSTOM_ID: movement-by-object
      :END:
 
-Vim Style (in Normal Mode): w : move forward by word (next-word) b :
-move back by word (previous-word) f : move forward to next char. % :
-move to matched parentheses
+Vim Style (in Normal Mode):
+w : move forward by word (next-word) 
+b : move back by word (previous-word) 
+f : move forward to next char. 
+% : move to matched parentheses
 
 Emacs Style: C-M-; : Move forward word C-M-j : Move backwards word
 
-*** In Insert Mode (Green)
+*** In Insert Mode (Blue)
     :PROPERTIES:
     :CUSTOM_ID: in-insert-mode-green
     :END:
@@ -99,29 +102,30 @@ Emacs Style: C-M-; : Move forward word C-M-j : Move backwards word
      :PROPERTIES:
      :CUSTOM_ID: basic-movement-1
      :END:
-
-C-j : Left (karabiner) C-k : Down (karabiner) C-l : Up (karabiner) C-; :
-Right (karabiner) C-h : Beginning of line (.spacemacs) C-' : End of line
-(.spacemacs)
+C-j : Left (karabiner) 
+C-k : Down (karabiner) 
+C-l : Up (karabiner) 
+C-; : Right (karabiner) 
+C-h : Beginning of line (.spacemacs) 
+C-' : End of line (.spacemacs)
 
 **** Other Movement Commands
      :PROPERTIES:
      :CUSTOM_ID: other-movement-commands
      :END:
+Emacs Style:
+C-M-; : Move forward word 
+C-M-j : Move backwards word
 
-     Emacs Style:
-     C-M-; : Move forward word 
-     C-M-j : Move backwards word
-
-     Vim Style (in Normal Mode):
-     w : move forward by word (next-word) 
-     b: move back by word (previous-word)
+Vim Style (in Normal Mode):
+w : move forward by word (next-word) 
+b: move back by word (previous-word)
 
 **** Searching
      :PROPERTIES:
      :CUSTOM_ID: searching
      :END:
-
+     
      / RET : search for 
      n : next occurrence 
      N : previous occurrence 
@@ -165,33 +169,29 @@ Right (karabiner) C-h : Beginning of line (.spacemacs) C-' : End of line
 ** Searching 
 
 *** Searching within Files 
-    There are a few ways to search for text within a typical vim file :
-    
-    SPC s h : Highlight current symbol - n : next and p : previous
-    
-    SPC s c : Clear highlighting
+There are a few ways to search for text within a typical vim file :
 
-    SPC s j : List all symbols in buffer
+SPC s h : Highlight current symbol - n : next and p : previous
 
+SPC s c : Clear highlighting
+
+SPC s j : List all symbols in buffer
 *** Searching using f command 
-    f<char> : go to char on the same line
-    ; : repeat last search
-    , : repeat search in opposite direction (if you overshoot)
-    F : search backwards for next char
+f<char> : go to char on the same line
+; : repeat last search
+, : repeat search in opposite direction (if you overshoot)
+F : search backwards for next char
 
-    t : search unTil next char (place cursor before)
-    T : search backwards until next char 
-    
+t : search unTil next char (place cursor before)
+T : search backwards until next char 
 *** Searching using the `/` key 
-     
-    / <something> RET : search for <something> 
-    n : next occurrence 
-    N : previous occurrence 
-    ? : Search backwards
+/ <something> RET : search for <something> 
+n : next occurrence 
+N : previous occurrence 
+? : Search backwards
 
-    Can be combined with other commands like 'd' : 
-    d/ge = delete from point to start of word beginning with 'ge'
-
+Can be combined with other commands like 'd' : 
+d/ge = delete from point to start of word beginning with 'ge'
 *** Searching in Projects
     To search for text in a project (i.e. find text in multiple files)
     
@@ -200,8 +200,16 @@ Right (karabiner) C-h : Beginning of line (.spacemacs) C-' : End of line
 ** Selecting Objects
 
 *** Selecting using visual mode
-   SPC v : selects word at point. (expand region - pressing v again expands further)
- 
+SPC v : selects word at point. (expand region - pressing v again expands further)
+
+*** Selecting using visual star  
+\star : to select the item at point.
+e : to edit the selection
+i : start insert mode
+ESC : exit insert
+n : go to next occurrence
+. : repeat last edit 
+  
 ** Buffers
    :PROPERTIES:
    :CUSTOM_ID: buffers
