@@ -193,9 +193,9 @@ N : previous occurrence
 Can be combined with other commands like 'd' : 
 d/ge = delete from point to start of word beginning with 'ge'
 *** Searching in Projects
-    To search for text in a project (i.e. find text in multiple files)
+To search for text in a project (i.e. find text in multiple files)
     
-    SPC s a p : Search for pattern in project files using ag and helm
+SPC s a p : Search for pattern in project files using ag and helm
     
 ** Selecting Objects
 

@@ -16,11 +16,8 @@ repo path: /Users/git/gitrepos/reponame.git
 
 Example with a repo /Users/zand/dev/clojure/alpen:
 
-<<<<<<< variant A
->>>>>>> variant B
 #+begin_src bash :tangle yes
 # (edit the .gitignore to exclude unwanted files)
-======= end
 cd /Users/zand/dev/clojure/alpen 
 git init 
 git add . 
