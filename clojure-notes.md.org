@@ -371,14 +371,14 @@ conj returns a new sequence of the same type with arguments added.
 
 Note: the syntax of conj is [coll x] so,
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (conj #{} #{ #{1 3} #{1 2}})
     => #{#{#{1 3} #{1 2}}}
 #+END_EXAMPLE
 
 but...
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (conj #{#{1 3} #{1 2}} #{})
     => #{#{} #{1 3} #{1 2}}
 #+END_EXAMPLE
@@ -437,7 +437,7 @@ the items. (map vector a b) => ([:a 1] [:b 2] [:c 3])
 
 Use =juxt= but keys must be keywords!
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     clojure.core/juxt [f] [f g] [f g h] [f g h & fs]
     Takes a set of functions and returns a fn that is the juxtaposition of those fns.
     The returned fn takes a variable number of args, and returns a vector containing
@@ -445,7 +445,7 @@ Use =juxt= but keys must be keywords!
     ((juxt a b c) x) => [(a x) (b x) (c x)]
 #+END_EXAMPLE
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     ((juxt :foo :bar) {:foo 1 :bar 2 :baz 3})
     => (1 2)
 #+END_EXAMPLE
@@ -491,7 +491,7 @@ Example: How to transform "1,2,3,4,5" into a vector [1 2 3 4 5]?
 
 Takes a string and returns a string containing all caps.
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (fn [x]
       (apply str (filter #(re-find #"[A-Z]" (str %)) (seq x))))
 #+END_EXAMPLE
@@ -501,13 +501,13 @@ Takes a string and returns a string containing all caps.
    :CUSTOM_ID: regular-expressions
    :END:
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     #(apply str (re-seq #"[A-Z]" %))
 #+END_EXAMPLE
 
 Extract the
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (apply str (re-seq #"[A-Z]+" "bA1B3Ce "))
 #+END_EXAMPLE
 
@@ -607,17 +607,17 @@ yields a sequence of exprs.
 
 ; take each item, multiply by three and then keep even items:
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (for [x [0 1 2 3 4 5]            ; binding-form
                    :let [y (* x 3)]  ; collection expression
                    :when (even? y)]  ; filter expression
                y)
     (0 6 12)
-#+END_EXAMPLE
+#+END_EXAMPLE 
 
 Take each item, multiply by three and then keep even items:
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (for [x [0 1 2 3 4 5]            ; x is each element in the set
                    :let [y (* x 3)]  ; y is x * 3
                    :when (even? y)]  ; keep only those y's that are even
@@ -627,7 +627,7 @@ Take each item, multiply by three and then keep even items:
 
 ;; Mapcat can be useful here:
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (mapcat (fn [[k v]]
                      (for [[k2 v2] v]
                        (concat [k k2] v2)))
@@ -646,7 +646,7 @@ First import the clojure.tools.trace library:
 
 Simple debugging of let forms:
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (fn [n]
       (let [expl (map #(Character/getNumericValue %) (str n))
             lhs  (if (even? (count expl)) (take (/ (count expl) 2) expl) (take (int (Math/floor (double (/ (count expl) 2)))) expl))
@@ -658,7 +658,7 @@ Simple debugging of let forms:
           false)))
 #+END_EXAMPLE
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (ns alpen.core
        (:require [clojure.repl :as r]
                  [clojure.tools.trace :as t] :reload-all))
@@ -666,7 +666,7 @@ Simple debugging of let forms:
 
 or
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (ns offline-4clojure.p96
        (:use clojure.test)
        (:use clojure.tools.trace))
@@ -676,7 +676,7 @@ Then you can use:
 
 =(t/trace :tagname (*2 3))=
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (t/deftrace dropnth2
       "drop the nth item from a sequence"
       [coll n]
@@ -694,7 +694,7 @@ or if the function name is "*", as in: (defn * [x] (identity x))
 
 will give you:
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (= (__ '(:a (:b nil nil) (:b nil nil))) true)
     TRACE t2758: (offline-4clojure.p96/__ (:a (:b nil nil) (:b nil nil)))
     TRACE t2758: => true
@@ -722,13 +722,13 @@ Remove nil items from a set you should use:
 
 but you might also see:
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (filter identity my-seq)
 #+END_EXAMPLE
 
 or
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE clojure
     (keep identity my-seq )
 #+END_EXAMPLE
 

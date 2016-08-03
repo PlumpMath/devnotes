@@ -1,3 +1,4 @@
+#+OPTIONS: \n:t
 * Spacemacs Operations
   :PROPERTIES:
   :CUSTOM_ID: spacemacs-operations
@@ -19,16 +20,26 @@ bound to movement commands in spacemacs.
    :CUSTOM_ID: basic-operation
    :END:
 
-SPC : command prefix in Normal Mode (Orange) 
-ESC : Go from insert mode to Normal Mode 
+SPC : command prefix in Normal Mode (Orange)
+ESC : Go from insert mode to Normal Mode
 C-x : Prefix for Emacs commands
 C-u : Universal argument
 C-c : Mode specific key-bindings
 
-fd : quickly pressing fd will escape from anything in spacemacs C-g :
-cancel (keyboard-quit)
+fd : quickly pressing fd will escape from anything in spacemacs 
+C-g : cancel (keyboard-quit)
 
 SPC o : reserved for the user SPC m o : reserved for the user
+
+** Getting Help 
+KeyBindings for help:
+
+SPC h d f : describe function
+SPC h d k : describe keybindings
+SPC h d v : describe variable
+SPC <f1> : search for documentation
+
+SPC h SPC : list all layers
 
 ** Navigation
    :PROPERTIES:
@@ -45,30 +56,44 @@ SPC o : reserved for the user SPC m o : reserved for the user
      :CUSTOM_ID: basic-movement
      :END:
 
-Spacemacs Default: j : down (evil-next-line) k : up (evil-previous-line)
-l : right (evil-forward-char) h : left (evil-backward-char)
+     Spacemacs Default: 
+     j : down (evil-next-line) 
+     k : up (evil-previous-line)
+     l : right (evil-forward-char) 
+     h : left (evil-backward-char)
 
-My Modified Defaults: k : down l : up j : left ; : right h : beginning
-of line ' : end of line C-d : scroll down 1/2 page (evil-scroll-down)
-C-f : scroll down 1 full page C-u : scroll up 1/2 page (evil-scroll-up)
-C-b : scroll up 1 full page gg : move to beginning of buffer G : move to
-the end of buffer
+     My Modified Defaults:
+     k : down 
+     l : up 
+     j : left 
+     ; : right 
+     h : beginning of line
+     ' : end of line 
+     C-d : scroll down 1/2 page (evil-scroll-down)
+     C-f : scroll down 1 full page 
+     C-u : scroll up 1/2 page (evil-scroll-up)
+     C-b : scroll up 1 full page 
+     gg : move to beginning of buffer 
+     G : move to the end of buffer
 
-SPC j j : avy jump char (same as ace-jump) SPC j l : avy jump line g ; :
-go to last change
+     SPC j j : avy jump char (same as ace-jump) 
+     SPC j l : avy jump line 
+     g ; : go to last change
 
 **** Movement by Object
      :PROPERTIES:
      :CUSTOM_ID: movement-by-object
      :END:
 
-Vim Style (in Normal Mode): w : move forward by word (next-word) b :
-move back by word (previous-word) f : move forward to next char. % :
-move to matched parentheses
+Vim Style (in Normal Mode):
+w : move forward by word (next-word) 
+b : move back by word (previous-word) 
+f : move forward to next char. 
+% : move to matched parentheses
 
 Emacs Style: C-M-; : Move forward word C-M-j : Move backwards word
 
-*** In Insert Mode (Green)
+*** In Insert Mode (Blue)
     :PROPERTIES:
     :CUSTOM_ID: in-insert-mode-green
     :END:
@@ -77,28 +102,34 @@ Emacs Style: C-M-; : Move forward word C-M-j : Move backwards word
      :PROPERTIES:
      :CUSTOM_ID: basic-movement-1
      :END:
-
-C-j : Left (karabiner) C-k : Down (karabiner) C-l : Up (karabiner) C-; :
-Right (karabiner) C-h : Beginning of line (.spacemacs) C-' : End of line
-(.spacemacs)
+C-j : Left (karabiner) 
+C-k : Down (karabiner) 
+C-l : Up (karabiner) 
+C-; : Right (karabiner) 
+C-h : Beginning of line (.spacemacs) 
+C-' : End of line (.spacemacs)
 
 **** Other Movement Commands
      :PROPERTIES:
      :CUSTOM_ID: other-movement-commands
      :END:
+Emacs Style:
+C-M-; : Move forward word 
+C-M-j : Move backwards word
 
-Emacs Style: C-M-; : Move forward word C-M-j : Move backwards word
-
-Vim Style (in Normal Mode): w : move forward by word (next-word) b: move
-back by word (previous-word)
+Vim Style (in Normal Mode):
+w : move forward by word (next-word) 
+b: move back by word (previous-word)
 
 **** Searching
      :PROPERTIES:
      :CUSTOM_ID: searching
      :END:
-
-/ RET : search for n : next occurrence N : previous occurrence ? :
-Search backwards
+     
+     / RET : search for 
+     n : next occurrence 
+     N : previous occurrence 
+     ? : Search backwards
 
 ** Editing Text
    :PROPERTIES:
@@ -110,18 +141,75 @@ Search backwards
     :CUSTOM_ID: in-normal-mode
     :END:
 
-c w : delete word from point to end of word (change word) c i w : delete
-whole word point in on (change inner word) dw : delete word r : replace
+    i : insert
+    I : insert at the beginning of line
+    A : Append to end of line.
+    o : Insert on newline below. Insert <CR> and enter insert mode. 
+    O : Insert on line above.
+
+    c : Change <waits for motion command like $>  
+    C : Change to end of line. 
+    s : delete char under cursor and enter insert mode
+    S : Change line from beginning to end 
+    c w : delete word from point to end of word (change word) 
+    c i w : delete whole word point in on (change inner word) 
+    dw : delete word 
+    r : replace
 
 *** In Insertion Mode
     :PROPERTIES:
     :CUSTOM_ID: in-insertion-mode
     :END:
 
-dw : delete word forwards (delete after moving to word) db : delete word
-backwards (delete after moving to beginning) O : Add newline and insert
-before o : Add newline and insert after
+    dw : delete word forwards (delete after moving to word) 
+    db : delete word backwards (delete after moving to beginning) 
+    O : Add newline and insert before
+    o : Add newline and insert after
 
+** Searching 
+
+*** Searching within Files 
+There are a few ways to search for text within a typical vim file :
+
+SPC s h : Highlight current symbol - n : next and p : previous
+
+SPC s c : Clear highlighting
+
+SPC s j : List all symbols in buffer
+*** Searching using f command 
+f<char> : go to char on the same line
+; : repeat last search
+, : repeat search in opposite direction (if you overshoot)
+F : search backwards for next char
+
+t : search unTil next char (place cursor before)
+T : search backwards until next char 
+*** Searching using the `/` key 
+/ <something> RET : search for <something> 
+n : next occurrence 
+N : previous occurrence 
+? : Search backwards
+
+Can be combined with other commands like 'd' : 
+d/ge = delete from point to start of word beginning with 'ge'
+*** Searching in Projects
+To search for text in a project (i.e. find text in multiple files)
+    
+SPC s a p : Search for pattern in project files using ag and helm
+    
+** Selecting Objects
+
+*** Selecting using visual mode
+SPC v : selects word at point. (expand region - pressing v again expands further)
+
+*** Selecting using visual star  
+\star : to select the item at point.
+e : to edit the selection
+i : start insert mode
+ESC : exit insert
+n : go to next occurrence
+. : repeat last edit 
+  
 ** Buffers
    :PROPERTIES:
    :CUSTOM_ID: buffers
@@ -144,8 +232,9 @@ M-D : Kill marked buffers (Alt - capital d)
    :CUSTOM_ID: windows
    :END:
 
-C-x o, SPC w SPC : Jump to other window SPC w . : initiate window
-micro-state SPC w - : split window below SPC w / : split window right
+   C-x o, SPC w SPC : Jump to other window 
+   SPC w . : initiate window micro-state 
+   SPC w - : split window below SPC w / : split window right
 SPC w c : close a window SPC w C : delete another window
 (ace-delete-window)
 
@@ -156,15 +245,19 @@ SPC w c : close a window SPC w C : delete another window
 
 SPC v : expand region
 
-*** Cut and Paste
+** Cut and Paste
     :PROPERTIES:
     :CUSTOM_ID: cut-and-paste
     :END:
 
+Basic Operations:
 1) SPC v -> selects visual line mode (uppercase V selects whole line)
 2) type d to cut or y to copy
 3) Move to destination
 4) Press P to paste before cursor for p to paste after.
+
+In Normal Mode: 
+yy : yank (copy) whole line 
 
 ** Files
 SPC f c : copy file aka "Save as"
@@ -181,21 +274,63 @@ SPC S c : helm correct spelling
    :CUSTOM_ID: misc
    :END:
 
-SPC f e d : open the spacemacs dot file
+   SPC f e d : open the spacemacs dot file
+
+*** Terminals 
+
+    SPC a s t : pop up an ansi-term at the bottom of screen. (Close with C-x 0)
+
+** Surrounding Text 
+
+   From normal mode:
+   ysiw" : surround inner word with " 
+   
+   From visual mode:
+   v/<char><RET>s<char><RET> : surround visual selection
+   SPC v s " : select thing at point and surround with "
+
+   Emacs Style:
+   M-( : surround with parentheses
+
+** Spelling
+    :PROPERTIES:
+    :CUSTOM_ID: spelling
+    :END:
+
+    SPC S c : helm correct spelling
 
 ** Commands
    :PROPERTIES:
    :CUSTOM_ID: commands
    :END:
 
-Copy whole document (Yank all the lines)
+*** _Copy whole document (Yank all the lines)_
 
-:%y+
+    :%y+
 
-Explanation:
+    Explanation:
 
-% tell the next command to work on all the lines y to yank those lines +
-to copy to the system clipboard
+    % tell the next command to work on all the lines
+    y to yank those lines
+    /+ to copy to the system clipboard
+
+*** Delete until period 
+    
+    dt. 
+
+    Explanation:
+    d : delete
+    t : search for char (not including unTil)
+    . : char to search for
+
+*** Delete Word at Point 
+    
+    daw 
+
+    Explanation:
+    d : delete
+    a : around 
+    w : word 
 
 ** Questions
    :PROPERTIES:
@@ -215,7 +350,9 @@ set to SPC C-d Turn off spelling suggestions in markdown doc?
     :CUSTOM_ID: implemented
     :END:
 
-Make the evil normal mode movement keys the same as mine e.g. :
+    Make the evil normal mode movement keys the same as mine e.g. :
 
-move up evil-previous-line to : l move down evil-next-line to : k move
-left evil-backward-char : j move right evil-forward-char : ;
+    move up evil-previous-line to : l 
+    move down evil-next-line to : k 
+    move left evil-backward-char : j 
+    move right evil-forward-char : ;
