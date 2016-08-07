@@ -91,7 +91,9 @@ b : move back by word (previous-word)
 f : move forward to next char. 
 % : move to matched parentheses
 
-Emacs Style: C-M-; : Move forward word C-M-j : Move backwards word
+Emacs Style: 
+C-M-; : Move forward word 
+C-M-j : Move backwards word
 
 *** In Insert Mode (Blue)
     :PROPERTIES:
@@ -284,10 +286,13 @@ SPC S c : helm correct spelling
 
    From normal mode:
    ysiw" : surround inner word with " 
+   ds" : remove surrounding "
+   yss" : surround sentence with "
    
    From visual mode:
    v/<char><RET>s<char><RET> : surround visual selection
    SPC v s " : select thing at point and surround with "
+   SPC v d " : select thing at point and remove "
 
    Emacs Style:
    M-( : surround with parentheses

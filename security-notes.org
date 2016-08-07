@@ -1,0 +1,19 @@
+* Security PGP Notes
+ 
+Install GNUPG:
+`brew install gpg`
+
+Generate a keypair:
+`gpg --gen-key`
+
+Export a Key:
+`gpg --export-secret-key -a > secretkey.asc`
+
+Import a Key:
+`gpg --import secretkey.asc`
+`shred --remove secretkey.asc`
+http://askubuntu.com/questions/32438/how-to-share-one-pgp-key-on-multiple-machines
+
+Trust a key:
+`gpg --edit-key`
+http://stackoverflow.com/questions/5587513/how-to-export-private-secret-asc-key-to-decrypt-gpg-files-in-windows/10718194#10718194
