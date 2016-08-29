@@ -15,6 +15,29 @@ Generate a keypair:
 Information to get Leiningen to download the peer library:
 https://my.datomic.com/account
 
+*** GPG
+
+How to generate new keys using gpg:
+
+List gpg keys:
+#+BEGIN_SRC bash
+gpg --list-keys
+#+END_SRC
+
+Export private gpg keys:
+#+BEGIN_SRC bash
+gpg --export-secret-key -a "User Name" > private.key
+#+END_SRC
+
+How to import gpg keys from another machine:
+#+BEGIN_SRC bash
+gpg --allow-secret-key-import --import private.key
+#+END_SRC
+Note : this may be deprecated
+
+How to encrypt and decrypt using gpg:
+https://www.gnupg.org/gph/en/manual/x110.html
+
 Setup Leiningen with encrypted credential file:
 https://github.com/technomancy/leiningen/blob/master/doc/DEPLOY.md#authentication
 
@@ -22,11 +45,17 @@ Setting up gpg-agent on Mac to allow lein to login to my.datomic.com
 without asking for pass-phrase: 
 https://wincent.com/wiki/Using_gpg-agent_on_OS_X
 
-How to encrypt and decrypt using gpg:
-https://www.gnupg.org/gph/en/manual/x110.html
+*** Running Datomic 
 
 Running a Transactor:
 http://docs.datomic.com/run-transactor.html
+
+*** Importing Data into a DB
+
+bin/datomic restore-db file:///home/zand/data/mbrainz-1968-1973 datomic:dev://localhost:4334/mbrainz-1968-1973
+
+*** Running Datomic Console
+
 
 ** Datomic Basics
 
